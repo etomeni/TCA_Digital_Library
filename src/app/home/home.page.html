@@ -1,0 +1,86 @@
+<ion-header [translucent]="false" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: black;"> Digital Library</span>
+    </h1>
+
+    <!-- <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons> -->
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <swiper [keyboard]="true" [pagination]="false" [scrollbar]="false" [zoom]="true" effect="fade">
+    <ng-template swiperSlide>
+      <ion-card class="intro1">
+        <ion-card-header>
+          <img src="../../assets/images/radiomic.png" alt="Welcome Intro 1" sizes="" srcset="">
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-card-title>Welcome</ion-card-title>
+          <ion-text>
+            To new world of possibilities where radio and entrepreneurship has
+            gone digital and easier with us.
+          </ion-text>
+
+          <ion-button (click)="nextSlide()" expand="block" mode="md">
+            NEXT
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <ion-card class="intro2">
+        <ion-card-header>
+          <img src="../../assets/images/donate.jpg" alt="Welcome Intro 2" sizes="" srcset="">
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-card-title>Join Us</ion-card-title>
+          <ion-text>
+            Everyday at <span style="color: #de2341; font-weight: bolder;">TCA</span> <span style="color: black; font-weight: bolder;"> Radio</span>
+            To get latest vibes and inspiration for a smooth entrepreneurial day.
+          </ion-text>
+
+          <ion-button (click)="nextSlide()" expand="block" mode="md">
+            NEXT
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <ion-card class="intro3">
+        <ion-card-header>
+          <img src="../../assets/images/testimony.png" alt="Welcome Intro 3" sizes="" srcset="">
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-card-title>Who We Are</ion-card-title>
+          <ion-text>
+            We're a team of young <span style="color: black; font-weight: bolder;">entrepreneurs</span>, devoted to <span style="color: black;">inspire</span> and <span style="color: black;">motivate</span> other entrepreneurs
+            towards <span style="color: #de2341; font-weight: bolder;">achieving goals</span>.
+            <br>
+            With a large community of <span style="color: black;"> over 1 million active followers and listerners</span>.
+            <br>
+            <br>
+            We <span style="color: #de2341; font-weight: bolder;">Inspire </span> 
+            <span style="color: black; font-weight: bolder;"> Ideas, Positivity, Greatness, Possibilities, Motivations, Productivity,</span> and many more.
+          </ion-text>
+
+          <ion-button (click)="getStarted()" expand="block" mode="md" [disabled]="getStartedBTN">
+            <span *ngIf="!getStartedBTN"> START LISTENING </span> <i *ngIf="getStartedBTN" class="loader"></i>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+    
+  </swiper>
+  
+
+</ion-content>

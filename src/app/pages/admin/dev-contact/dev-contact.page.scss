@@ -1,0 +1,153 @@
+ion-header {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+      --color: white; 
+    }
+    --color: white; 
+}
+
+ion-footer {
+    --background: transparent;
+    --color: white;
+    ion-toolbar {
+        --color: white;
+        --background: #de234250;
+    }
+}
+
+ion-content {
+    font-weight: bold;
+    --color: white; 
+
+    --background:
+        linear-gradient(
+        rgba(0, 0, 0, 0.452), 
+        #0000006c
+        ),
+        url("/assets/images/contact.png") 
+        no-repeat center center / cover;
+    // --background-size: cover; 
+    // --background-repeat: no-repeat;
+    // --background-position: center center;
+    --margin: 0;
+    --padding: 0;
+
+    .colorRed {
+        color: #de2341;
+    }
+    .error {
+        color: #de2341;
+        font-size: small;
+    }
+    
+    ion-icon.colorRed {
+        font-size: 25px;
+        color: #de2341;
+    }
+
+    ion-grid.wrapper-outter,
+    ion-grid.wrapper-outter ion-row {
+        text-align: center;
+        height: 100%;
+    }
+
+    .yCenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper-inner {
+        width: 100%;
+        margin: auto;
+        color: white;
+    }
+
+    form ion-item {
+        --background: rgba(255, 255, 255, 0.568);
+    }
+
+    #goback {
+        h2 {
+            color: white; 
+            font-size: x-large;
+
+            ion-icon {
+                color: #de2341;
+                cursor: pointer;
+            }
+        }
+    }
+
+    ion-list.social-list {
+        background: transparent;
+        border-radius: 10px !important;
+        margin-top: 5px;
+
+        ion-item {
+            border-bottom: 1px solid #1b1b1b;
+            --background: #ffffff5d;
+        }
+    }
+
+    .pic-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            background-color: #fff;
+        }
+    }
+
+    
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #de2341; /* Blue */
+        border-bottom: 16px solid #de2341; /* Blue */
+        border-radius: 50%;
+        animation: spin 0.3s linear infinite;
+        margin-left: 10px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+}
+
+
+
+@media screen and (max-width: 600px) {
+
+}
+
+@media screen and (min-width: 600px) {
+    ion-card ion-card-header img {
+        display: none;
+    }
+    
+    .intro1 ion-card-header {
+        --background: url("/assets/images/radiomic.png") no-repeat center center / cover !important;
+        height: 50vh !important;
+        max-height: 50vh !important;
+    }
+    
+    .intro2 ion-card-header {
+        --background: url("/assets/images/donate.jpg") no-repeat center center / cover;
+        height: 50vh;
+        max-height: 50vh;
+    }
+    
+    .intro3 ion-card-header {
+        --background: url("/assets/images/testimony.png") no-repeat center center / cover;
+        height: 50vh;
+        max-height: 50vh;
+    }
+}

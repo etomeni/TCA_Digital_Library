@@ -1,0 +1,93 @@
+<ion-app>
+
+  <ion-menu contentId="menu-content" menuId="main-menu" side="end" type="overlay">
+    <ion-content>
+      <div class="menu-content-header-bg"></div>
+      <div class="menu-content-header-content">
+        <img src="/assets/logo/favicon.png" alt="TCA Digital Library" srcset="">
+        <ion-label>
+          <h1>Digital <span style="color: black;">Library</span></h1>
+          <p>To take the consolation In Christ Jesus to the people and nations of the earth.</p>
+        </ion-label>
+      </div>
+
+      <div class="live-radio-BTN">
+        <ion-menu-toggle class="ion-no-border">
+          <ion-button mode="md" routerLink="/radio" class="ion-no-border">
+            <ion-icon name="musical-notes-sharp"></ion-icon>
+            Live Radio
+          </ion-button>
+        </ion-menu-toggle>
+      </div>
+
+      <ion-list lines="none" class="menu-items">
+        <ion-menu-toggle>
+          <ion-item routerLink="/audiomessages" [routerLinkActive]="['active']">
+            <ion-icon slot="start" name="radio"></ion-icon>
+            <ion-label>Audio Messages</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/videomessages" [routerLinkActive]="['active']">
+            <ion-icon slot="start" name="apps"></ion-icon>
+            <ion-label>Video Messages</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/testimony" [routerLinkActive]="['active']"> 
+            <ion-icon slot="start" name="mic"></ion-icon>
+            <ion-label>Testimonies</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/prayer-request" [routerLinkActive]="['active']">
+            <ion-icon slot="start" name="open-outline"></ion-icon>
+            <ion-label>Prayer Request</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/announcement" [routerLinkActive]="['active']">
+            <ion-icon slot="start" name="megaphone"></ion-icon>
+            <ion-label>Announcements</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/about" [routerLinkActive]="['active']">
+            <ion-icon name="business"></ion-icon>
+            <ion-label>About TCA</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item [routerLinkActive]="['active']" routerLink="/donate">
+            <ion-icon name="heart-sharp"></ion-icon>
+            <ion-label>Offerings</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/contact" [routerLinkActive]="['active']">
+            <ion-icon name="chatbubble-ellipses-sharp"></ion-icon>
+            <ion-label>Contact Us</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item routerLink="/admin" [routerLinkActive]="['active']">
+            <ion-icon name="apps-outline"></ion-icon>
+            <ion-label>Admin</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
+</ion-app>

@@ -1,0 +1,83 @@
+
+ion-header {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+    }
+}
+
+ion-footer {
+    // --background: transparent;
+    ion-toolbar {
+        --background: transparent;
+    }
+}
+
+ion-content {
+    --background:
+        linear-gradient(
+        rgba(0, 0, 0, 0.452), 
+        #0000006c
+        ),
+        url("/assets/images/announcement.png") 
+        no-repeat center center / cover;
+    // --background-size: cover;
+    // --background-repeat: no-repeat;
+    // --background-position: center center;
+    --margin: 0;
+    --padding: 0;
+
+
+
+    .podcast-main-content {
+        background-color: rgba(255, 0, 0, 0.555); 
+        border-radius: 10px;
+
+        .play-pause-col {
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .playBtnCover {
+            background-color: rgba(255, 255, 255, 0.555); 
+            padding: 25px; border-radius: 50%;
+
+            ion-icon {
+                font-size: x-large;
+            }
+        }
+
+        .duration-volume-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .duration {
+                width: 40%; 
+                margin-left: 3px; 
+                margin-right: 3px;
+            }
+
+            .mute-unmute-volume {
+                margin-left: 15px; 
+                margin-right: 3px; 
+                font-size: 20px;
+            }
+
+            .mute-unmute-volume:not(.active) {
+                display: none;
+            }
+
+            .volume {
+                width: 25%;
+            }
+        }
+    }
+
+    input[type="range"] {
+        outline: none;
+        height: 2px;
+    }
+
+}

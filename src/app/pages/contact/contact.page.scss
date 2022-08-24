@@ -1,0 +1,75 @@
+ion-header {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+    }
+}
+
+ion-footer {
+    --background: transparent;
+    ion-toolbar {
+        --background: transparent;
+    }
+}
+
+ion-content {
+    font-weight: bold;
+    --background:
+        linear-gradient(
+        rgba(0, 0, 0, 0.452), 
+        #0000006c
+        ),
+        url("/assets/images/contact.png") 
+        no-repeat center center / cover;
+    // --background-size: cover; 
+    // --background-repeat: no-repeat;
+    // --background-position: center center;
+    --margin: 0;
+    --padding: 0;
+
+    .colorRed {
+        color: #de2341;
+    }
+    .error {
+        color: #de2341;
+        font-size: small;
+    }
+    
+    ion-icon.colorRed {
+        font-size: 25px;
+        color: #de2341;
+    }
+
+    ion-col {
+        padding: auto 0;
+    }
+
+    // ion-item {
+    //     --border-color: #e49133;
+    //     // --border-width: 0 0 1px 0;
+    //     --highlight-color-focused: #e49133;
+    //     --highlight-color-invalid: #de2341;
+    //     --highlight-color-valid: green;
+
+    // }
+
+    form ion-item {
+        --background: rgba(255, 255, 255, 0.75);
+    }
+
+    
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #de2341; /* Blue */
+        border-bottom: 16px solid #de2341; /* Blue */
+        border-radius: 50%;
+        animation: spin 0.3s linear infinite;
+        margin-left: 10px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+}

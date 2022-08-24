@@ -1,0 +1,114 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Family</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+    <!-- Do ReFresh -->
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+  <div *ngIf="dashboardExtra.topStatus">
+    <div [innerHTML]="dashboardExtra.topLink"></div>
+  </div>
+
+  <ion-grid fixed id="dashNav" style="margin-top: 20px;">
+    <ion-row style="color: white !important;">
+      <ion-col size="4">
+        <div class="wrap" routerLink="liveTV">
+          <ion-icon name="videocam-outline"></ion-icon>
+          <br>
+          Live TV
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/audio-messages">
+          <ion-icon name="radio-outline"></ion-icon>
+          <br>
+          Audio Messages
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/video-messages">
+          <ion-icon name="tv-outline"></ion-icon>
+          <br>
+          Video Messages
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/testimonies">
+          <ion-icon name="mic"></ion-icon>
+          <br>
+          Testimonies
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/announcements">
+          <ion-icon name="megaphone"></ion-icon>
+          <br>
+          Announcements
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/prayer-requests">
+          <ion-icon name="layers"></ion-icon>
+          <br>
+          Prayer Requests
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/contacts">
+          <ion-icon name="chatbox-ellipses"></ion-icon>
+          <br>
+          Contact Messages
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/new-admin">
+          <ion-icon name="person-add"></ion-icon>
+          <br>
+          Add New Admin
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/details">
+          <ion-icon name="cog"></ion-icon>
+          <br>
+          Details
+        </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div class="wrap" routerLink="/admin/developers-contact">
+          <ion-icon name="code-working"></ion-icon>
+          <br>
+          Contact Developer
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="dashboardExtra.bottomStatus">
+    <div [innerHTML]="dashboardExtra.bottomLink"></div>
+  </div>
+
+</ion-content>

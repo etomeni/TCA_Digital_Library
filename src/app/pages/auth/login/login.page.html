@@ -1,0 +1,81 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Digital Library</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid class="wrapper-outter">
+    <ion-row>
+      <ion-col size="12" class="yCenter">
+        <div class="wrapper-inner">
+          
+          <div>
+            <h2 style="padding: 7px;"> Pastor/Administrators <span style="color: #de2341;"> Login</span>!</h2>
+
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div data-info="email input">
+                  <ion-item lines="none" class="formStart">
+                    <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="5" formControlName="email" type="email" autocomplete="email" placeholder="Enter your email address"></ion-input>
+                  </ion-item>
+      
+                  <span class="error ion-padding" 
+                    *ngIf="loginForm.get('email').touched && loginForm.get('email').dirty && loginForm.get('email').invalid"
+                  >
+                    <span class="error ion-padding" *ngIf="loginForm.get('email').errors?.required">
+                      Please Enter your Email address.
+                    </span>
+                    <span class="error ion-padding" *ngIf="loginForm.get('email').errors?.pattern || loginForm.get('email').errors?.email">
+                      Incorrect Email address.
+                    </span>
+                  </span>
+                </div>
+                      
+                <div data-info="password input">
+                  <ion-item lines="none" class="formEnd">
+                    <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="6" formControlName="password" type="text" autocomplete="password" placeholder="Enter your password"></ion-input>
+                  </ion-item>
+
+                  <span class="error ion-padding" 
+                    *ngIf="loginForm.get('password').touched && loginForm.get('password').dirty && loginForm.get('password').invalid"
+                  >
+                    <span class="error" *ngIf="loginForm.get('password').errors?.required;">
+                      Please Enter your password.
+                    </span>
+                    <span class="error" *ngIf="loginForm.get('password').errors?.pattern || loginForm.get('password').errors?.minlength;">
+                      Password must be more than 6 characters.
+                    </span>
+                  </span>
+                </div>
+
+                <div *ngIf="error.status" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                  <p style="padding-top: 15px; padding-bottom: 15px;">
+                    {{ error.message }}
+                  </p>
+                </div>
+
+                <p routerLink="/auth/reset" style="color: #de9323; text-align: start; padding: 2px auto 5px auto; cursor: pointer;"> Forgotten password?</p>
+
+                <ion-button block type="submit" [disabled]="loginForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                  Login <i *ngIf="submitted" class="loader"></i>
+                </ion-button>
+              </form>
+          </div>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

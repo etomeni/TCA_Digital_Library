@@ -1,0 +1,77 @@
+
+ion-header {
+    --background: transparent !important;
+    ion-toolbar {
+      --background: transparent !important;
+    }
+}
+
+ion-footer {
+    --background: transparent !important;
+    ion-toolbar {
+        --background: transparent !important;
+    }
+}
+
+ion-content {
+    --background:
+        linear-gradient(
+        rgba(0, 0, 0, 0.452), 
+        #0000006c
+        ),
+        url("/assets/images/donate.jpg") 
+        no-repeat center center / cover;
+    // --background-size: cover;
+    // --background-repeat: no-repeat;
+    // --background-position: center center;
+    --margin: 0;
+    --padding: 0;
+
+    ion-grid.wrapper-outter,
+    ion-grid.wrapper-outter ion-row {
+        text-align: center;
+        height: 100%;
+    }
+
+    .yCenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper-inner {
+        // width: 100%;
+        margin: auto;
+        color: white;
+        // padding: 10px;
+        // background-color: #fff;
+        // border-radius: 20px;
+    }
+
+
+
+    ion-list {
+        background: transparent;
+    }
+
+    ion-list ion-item {
+        margin-bottom: 10px;
+        --background: transparent;
+        --color: white;
+        font-weight: bold;
+    }
+    ion-list ion-item ion-avatar {
+        margin-right: 10px;
+    }
+    
+    
+    #addFundsAmount {
+        width: 95%;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+    .error {
+        color: red;
+    }
+
+}

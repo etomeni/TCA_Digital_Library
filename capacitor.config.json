@@ -1,0 +1,13 @@
+{
+  "appId": "tca.digital.library",
+  "appName": "TCA Digital Library",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "showSpinner": false
+    }
+  }
+}

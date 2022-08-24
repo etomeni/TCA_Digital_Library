@@ -1,0 +1,116 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>shoutOut</ion-title> -->
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Digital Library</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid class="wrapper-outter">
+    <ion-row>
+      <ion-col size="12" class="yCenter">
+        <div class="wrapper-inner">
+          
+          <div>
+            <h2 style="padding: 7px;">Send a <span style="color: #de2341;"> Prayer Request</span>, so we can pray along with you!</h2>
+
+              <form [formGroup]="prayerRequestForm" (ngSubmit)="onSubmit()">
+
+                <div data-info="name input">
+                  <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                    <ion-label position="floating">Full Name(s) <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="3" formControlName="name" autocomplete="name" type="text"></ion-input>
+                  </ion-item>
+      
+                  <span class="error ion-padding" 
+                    *ngIf="prayerRequestForm.get('name').touched && prayerRequestForm.get('name').dirty && prayerRequestForm.get('name').invalid"
+                  >
+                    <span class="error ion-padding" *ngIf="prayerRequestForm.get('name').errors?.required">
+                      Please Enter your name
+                    </span>
+                    <span class="error ion-padding" *ngIf="prayerRequestForm.get('name').errors?.minlength">
+                      Name characters should be more than 3 characters.
+                    </span>
+                  </span>
+                </div>
+      
+                <div data-info="email input">
+                  <ion-item lines="none">
+                    <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="5" formControlName="email" type="email" autocomplete="email"></ion-input>
+                  </ion-item>
+      
+                  <span class="error ion-padding" 
+                    *ngIf="prayerRequestForm.get('email').touched && prayerRequestForm.get('email').dirty && prayerRequestForm.get('email').invalid"
+                  >
+                    <span class="error ion-padding" *ngIf="prayerRequestForm.get('email').errors?.required">
+                      Please Enter your Email address.
+                    </span>
+                    <span class="error ion-padding" *ngIf="prayerRequestForm.get('email').errors?.pattern || prayerRequestForm.get('email').errors?.email">
+                      Incorrect Email address.
+                    </span>
+                  </span>
+                </div>
+                      
+                <div data-info="Phone-Number input">
+                  <ion-item lines="none">
+                    <ion-label position="floating">Phone Number <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="10" formControlName="phoneNumber" type="tel" autocomplete="tel"></ion-input>
+                  </ion-item>
+
+                  <span class="error ion-padding" 
+                    *ngIf="prayerRequestForm.get('phoneNumber').touched && prayerRequestForm.get('phoneNumber').dirty && prayerRequestForm.get('phoneNumber').invalid"
+                  >
+                    <span class="error" *ngIf="prayerRequestForm.get('phoneNumber').errors?.required;">
+                      Please Enter your Phone Number.
+                    </span>
+                    <span class="error" *ngIf="prayerRequestForm.get('phoneNumber').errors?.pattern || prayerRequestForm.get('phoneNumber').errors?.minlength;">
+                      Phone Number not correct.
+                    </span>
+                  </span>
+                </div>
+            
+                <div data-info="Prayer-Request input">
+                  <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+                    <ion-label position="floating">Prayer Request <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-textarea formControlName="message" class="messageText" required minlength="10" placeholder="Enter your prayer request here..."></ion-textarea>
+                  </ion-item>
+
+                  <span class="error ion-padding" 
+                    *ngIf="prayerRequestForm.get('message').touched && prayerRequestForm.get('message').dirty && prayerRequestForm.get('message').invalid"
+                  >
+                    <span class="error" *ngIf="prayerRequestForm.get('message').errors?.required;">
+                      Please Enter your Prayer Request.
+                    </span>
+                    <span class="error" *ngIf="prayerRequestForm.get('message').errors?.minlength;">
+                      Your Prayer Request is too short, please drop a comprehensive prayer request.
+                    </span>
+                  </span>
+                </div>
+      
+                <div *ngIf="sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                  <p style="padding-top: 15px; padding-bottom: 15px;">
+                    Your prayer request has been sent successfully!!!
+                  </p>
+                </div>
+
+                <ion-button block type="submit" [disabled]="prayerRequestForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                  Send Prayer Request <i *ngIf="submitted" class="loader"></i>
+                </ion-button>
+              </form>
+          </div>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

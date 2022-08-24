@@ -1,0 +1,63 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Digital Library</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+
+  <ion-grid class="wrapper-outter">
+    <ion-row>
+      <ion-col size="12" class="yCenter">
+        <div class="wrapper-inner">
+          
+          <div>
+            <h2 style="padding: 7px;"> Reset <span style="color: #de2341;"> Password</span>, if forgotten or <a routerLink="/auth/login" style="color: #de9323;">login.</a> </h2>
+
+            <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+    
+              <div data-info="email input">
+                <ion-item lines="none" style="border-radius: 8px;">
+                  <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="5" formControlName="email" type="email" autocomplete="email" placeholder="Enter your email address"></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="resetForm.get('email').touched && resetForm.get('email').dirty && resetForm.get('email').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="resetForm.get('email').errors?.required">
+                    Please Enter your Email address.
+                  </span>
+                  <span class="error ion-padding" *ngIf="resetForm.get('email').errors?.pattern || resetForm.get('email').errors?.email">
+                    Incorrect Email address.
+                  </span>
+                </span>
+              </div>
+
+              <div *ngIf="sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                <p style="padding-top: 15px; padding-bottom: 15px;">
+                  A password reset link has been sent to your email. check your email and follow the instructions to reset your password.
+                </p>
+              </div>
+
+              <ion-button block type="submit" [disabled]="resetForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                Reset Password <i *ngIf="submitted" class="loader"></i>
+              </ion-button>
+            </form>
+          </div>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>

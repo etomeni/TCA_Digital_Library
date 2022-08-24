@@ -1,0 +1,7 @@
+{
+  "name": "TCA Digital Library",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

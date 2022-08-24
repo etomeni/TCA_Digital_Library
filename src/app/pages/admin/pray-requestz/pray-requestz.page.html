@@ -1,0 +1,129 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Prayer Requests </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+    <ion-row>
+      <ion-col size="12">
+        <!-- List of Sliding Items -->
+        <ion-list id="slidingList" lines="none" style="margin: auto 10px;">
+          
+          <ion-item-sliding lines="none" *ngFor ="let prayerRequest of prayerRequests; let i=index">
+            <ion-item lines="none" id="openViewModal" (click)="openViewModal(i, prayerRequest)">
+              <ion-thumbnail slot="start" style="width: 75px; height: 75px;" *ngIf="prayerRequest.image">
+                <img src="{{ prayerRequest.image }}">
+              </ion-thumbnail>
+            
+              <ion-label class="ion-text-wrap">
+                <ion-text color="dark">
+                  <h3> 
+                    By: <span style="color: black;"> {{ prayerRequest.name }} </span> | {{ prayerRequest.date | date: 'mediumDate' }} |
+
+                    <ion-icon *ngIf="prayerRequest.status" style="color: #28ba62;" name="checkmark-circle"></ion-icon>
+                    <ion-icon *ngIf="!prayerRequest.status" style="color: #de8723;" name="ellipse"></ion-icon>
+                  </h3>
+                </ion-text>
+                {{ prayerRequest.message | titlecase | slice: 0:70 }}
+              </ion-label>
+            </ion-item>
+  
+          </ion-item-sliding>
+          
+        </ion-list>
+  
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Prayer Request
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-card class="modalViewz">
+          <img src="{{ modalPrayerRequest.image }}" *ngIf="modalPrayerRequest.image" alt="Podcast Title" height="150px" width="100%">
+          <ion-card-header>
+            <ion-card-subtitle>
+              By: <span style="color: black;"> {{ modalPrayerRequest.name }} </span> | {{ modalPrayerRequest.date | date: 'mediumDate' }} |
+              
+              <ion-icon *ngIf="modalPrayerRequest.status" style="color: #28ba62;" name="checkmark-circle"></ion-icon>
+              <ion-icon *ngIf="!modalPrayerRequest.status" style="color: #de8723;" name="ellipse"></ion-icon>
+              
+              <br>
+              <span style="text-transform: lowercase;">
+                <a href="mailto:{{modalPrayerRequest.email}}?subject=Response to your prayer request sent on TCA digital library&body=Hi {{modalPrayerRequest.name}}, " style="text-decoration: none; color: unset;"> {{ modalPrayerRequest.email | lowercase }} </a> |
+                <a href="tel:{{modalPrayerRequest.phoneNumber}}" style="text-decoration: none; color: unset;"> {{ modalPrayerRequest.phoneNumber | lowercase }} </a>
+              </span>
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content style="color: black; padding: 10px;">
+            <div [innerHTML]="modalPrayerRequest.message"></div>
+
+            <ion-button block mode="md"
+              (click)="answered(modalPrayerRequest)" 
+              *ngIf="!modalPrayerRequest.status" 
+              [disabled]="submitted"
+              style="--background: #de2341; margin-top: 15px;">
+              Answered <i *ngIf="submitted" class="loader"></i>
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+    
+</ion-content>

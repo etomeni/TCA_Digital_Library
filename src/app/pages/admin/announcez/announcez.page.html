@@ -1,0 +1,196 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Announcements </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+
+    <ion-grid class="wrapper-outter" *ngIf="!announcements.length || createNewAnnouncement">
+      <ion-row>
+        <ion-col size="12" class="yCenter">
+          <div class="wrapper-inner">
+            
+            <div>
+              <h2 style="padding: 7px; color: white;">
+                Create an <span style="color: #de2341;"> Announcement </span> you want to inform TCA Family.
+              </h2>
+    
+              <form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+                <div *ngIf="uploadImgPreview" style="margin: 5px auto;">
+                  <img [src]="uploadImgPreview" width="auto" height="200px" style="border-radius: 10px;">
+                </div>
+
+                <div data-info="announcement input">
+                  <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                    <ion-label position="floating">Message <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-textarea formControlName="announcement" rows="4" class="testimonyText" required minlength="10" placeholder="Please give full details of the announcement"></ion-textarea>
+                  </ion-item>
+    
+                  <span class="error ion-padding" 
+                    *ngIf=" announcementForm.get('announcement').touched &&  announcementForm.get('announcement').dirty &&  announcementForm.get('announcement').invalid"
+                  >
+                    <span class="error" *ngIf=" announcementForm.get('announcement').errors?.required;">
+                      Please enter full details of the announcement.
+                    </span>
+                    <span class="error" *ngIf=" announcementForm.get('announcement').errors?.minlength;">
+                      The announcement is too short, please drop a comprehensive announcement.
+                    </span>
+                  </span>
+                </div>
+
+                <div class="div-img" data-info="image input">
+                  <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+                    <ion-label position="floating">Announcement Flyer/Image</ion-label>
+                    <ion-input type="file" 
+                      accept="image/*"
+                      placeholder="announcement flyer or image"
+                      formControlName="image" autocomplete="image"
+                      (change)="imagePreview($event)"
+                    ></ion-input>
+                  </ion-item>
+
+                  <span class="error ion-padding" *ngIf="imgFileError">
+                    File size should not be more than 500kb.
+                  </span>
+                </div>
+
+                <div *ngIf="sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                  <p style="padding-top: 15px; padding-bottom: 15px;">
+                    Announcement published successfully!!!
+                  </p>
+                </div>
+    
+                <ion-button block type="submit" [disabled]="announcementForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                  Submit <i *ngIf="submitted" class="loader"></i>
+                </ion-button>
+    
+                <ion-button block type="submit" (click)="closeAddNewBTN()" *ngIf="announcements.length" mode="md" style="--background: #de8723;">
+                  close 
+                </ion-button>
+              </form>
+            </div>
+    
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-row *ngIf="createNewAnnouncement == false">
+      <ion-col size="12">
+        <!-- List of Sliding Items -->
+        <ion-list id="slidingList" lines="none">
+          
+          <ion-item-sliding lines="none" *ngFor ="let announcement of announcements; let i=index">
+            <ion-item lines="none" id="openViewModal" (click)="openViewModal(announcement)">
+              <ion-thumbnail slot="start" style="width: 75px; height: 75px;" *ngIf="announcement.image">
+                <img src="{{ announcement.image }}">
+              </ion-thumbnail>
+            
+              <ion-label class="ion-text-wrap">
+                <ion-text color="dark">
+                  <h3>{{ announcement.date | date: 'mediumDate' }}</h3>
+                </ion-text>
+                
+                <div [innerHTML]="announcement.description | titlecase | slice: 0:70"></div>
+              </ion-label>
+            </ion-item>
+  
+            <ion-item-options side="end">
+              <ion-item-option (click)="deleteItem(i, announcement)" class="delete">
+                <ion-icon name="trash"></ion-icon>
+              </ion-item-option>
+              <ion-item-option (click)="editItem(i, announcement)" class="edit">
+                <ion-icon name="pencil"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+          
+        </ion-list>
+  
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Announcement
+            <!-- <span>Family - </span>
+            <span style="font-size: 14px;"> Announcements </span> -->
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-card style="background: rgba(255, 255, 255, 0.589); margin-top: 40px; margin-left: 0; margin-right: 0;">
+          <img src="{{ modalAnnouncement.image }}" *ngIf="modalAnnouncement.image" alt="announcement image" height="150px" width="100%">
+          <ion-card-header>
+            <ion-card-subtitle>
+              {{ modalAnnouncement.date | date: 'mediumDate'}}
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content style="color: black;">
+            <div [innerHTML]="modalAnnouncement.description"></div>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+    
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="createNewAnnouncement == false">
+  <ion-toolbar class="ion-text-center" (click)="addNewBTN()">
+    <ion-icon name="megaphone" style="color: white; margin-right: 10px;"></ion-icon>
+    Add New Announcement
+  </ion-toolbar>
+</ion-footer>

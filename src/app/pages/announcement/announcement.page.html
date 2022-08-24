@@ -1,0 +1,88 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>shoutOut</ion-title> -->
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Digital Library</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+    <ion-grid>
+      <ion-row>
+        <ion-col 
+          size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3"
+          *ngFor ="let announcement of announcements; let i=index"
+        >
+          <ion-card style="background: rgba(255, 255, 255, 0.589); margin-bottom: 0; margin-top: 0;">
+            <img src="{{ announcement.image }}" *ngIf="announcement.image" alt="announcement flyer or image" (click)="openViewModal(announcement)" height="150px" width="100%">
+            <ion-card-header>
+              <ion-card-subtitle>
+                {{ announcement.date | date: 'mediumDate'}}
+              </ion-card-subtitle>
+            </ion-card-header>
+  
+            <ion-card-content style="color: black;">
+              <!-- {{ announcement.description }} -->
+              <div [innerHTML]="announcement.description"></div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+  
+      </ion-row>
+    </ion-grid>
+    
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Announcement
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <div style="height: 100vh !important; display: flex; background: #000000b0 !important;">
+          <div style="align-content: center; margin-top: 25vh; ">
+            <img src="{{ modalAnnouncement.image }}" *ngIf="modalAnnouncement.image" alt="announcement flyer or image">
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+</ion-content>

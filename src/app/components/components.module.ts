@@ -1,0 +1,25 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { IonicModule } from '@ionic/angular';
+
+
+@NgModule({
+  declarations: [
+  ],
+
+  imports: [
+    CommonModule,
+    IonicModule
+  ],
+
+  exports: [
+  ],
+
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
+
+
+})
+export class ComponentsModule { }

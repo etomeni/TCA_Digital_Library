@@ -1,0 +1,205 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Video Messages </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+
+    <ion-row>
+      <ion-col size="12">
+        <!-- List of Sliding Items -->
+        <ion-list id="slidingList" lines="none" style="margin: auto 10px;">
+          
+          <ion-item-sliding lines="none" *ngFor ="let videoMsg of videoMessages; let i=index">
+            <ion-item lines="none" id="openViewModal" (click)="openViewModal(i, videoMsg)">
+              <ion-thumbnail slot="start" style="width: 75px; height: 75px;" *ngIf="videoMsg.image">
+                <img src="{{ videoMsg.image }}">
+              </ion-thumbnail>
+            
+              <ion-label class="ion-text-wrap">
+                <ion-text color="dark">
+                  <h3> 
+                    <span style="color: black;"> {{ videoMsg.service }} </span> | {{ videoMsg.date | date: 'mediumDate' }}
+                  </h3>
+                </ion-text>
+                {{ videoMsg.title | titlecase }}
+              </ion-label>
+            </ion-item>
+  
+            <ion-item-options side="end">
+              <ion-item-option (click)="deleteItem(i, videoMsg)" class="delete">
+                <ion-icon name="trash"></ion-icon>
+              </ion-item-option>
+              <ion-item-option id="openEditModal" (click)="editItem(i, videoMsg)" class="edit">
+                <ion-icon name="pencil"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+          
+        </ion-list>
+  
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Video Message
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-card *ngIf="addEditVideo == false" class="modalViewz">
+
+          <div [innerHTML]="modalVideoMsg.link"></div>
+
+          <ion-card-header>
+            <ion-card-subtitle>
+              <span style="color: black;"> {{ modalVideoMsg.service }} </span> | {{ modalVideoMsg.date | date: 'mediumDate' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content style="color: black;">
+            {{ modalVideoMsg.title | titlecase }}
+          </ion-card-content>
+        </ion-card>
+
+        <ion-grid class="wrapper-outter" *ngIf="addEditVideo">
+          <ion-row>
+            <ion-col size="12" class="yCenter">
+              <div class="wrapper-inner">
+                
+                <div>
+                  <h2 style="padding: 7px;">Add/Edit Video <span style="color: #de2341;"> Messages</span>. </h2>
+                  
+                  <form [formGroup]="videoMsgForm" (ngSubmit)="onSubmit()">
+                    <div data-info="service input">
+                      <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                        <ion-label position="floating">Service Day/Programme <ion-text color="danger">*</ion-text></ion-label>
+                        <ion-input required minlength="3" formControlName="service" type="text"></ion-input>
+                      </ion-item>
+          
+                      <span class="error ion-padding" 
+                        *ngIf="videoMsgForm.get('service').touched && videoMsgForm.get('service').dirty && videoMsgForm.get('service').invalid"
+                      >
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('service').errors?.required">
+                          Please enter the programme or service day
+                        </span>
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('service').errors?.minlength">
+                          characters should be more than 3 characters.
+                        </span>
+                      </span>
+                    </div>
+                    
+                    <div data-info="title input">
+                      <ion-item lines="none">
+                        <ion-label position="floating">Message Topic <ion-text color="danger">*</ion-text></ion-label>
+                        <ion-input required minlength="5" formControlName="title" type="text"></ion-input>
+                      </ion-item>
+          
+                      <span class="error ion-padding" 
+                        *ngIf="videoMsgForm.get('title').touched && videoMsgForm.get('title').dirty && videoMsgForm.get('title').invalid"
+                      >
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('title').errors?.required">
+                          Please enter the topic of message preached
+                        </span>
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('title').errors?.minlength">
+                          characters should be more than 5 characters.
+                        </span>
+                      </span>
+                    </div>
+
+                    <div data-info="link input">
+                      <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+                        <ion-label position="floating">Embeddable link to the message<ion-text color="danger">*</ion-text></ion-label>
+                        <!-- <ion-input required minlength="10" formControlName="link" type="text" placeholder="Please enter the video embeddable link to the message"></ion-input> -->
+                        <ion-textarea formControlName="link" rows="4" required minlength="10" placeholder="Please enter the video embeddable link to the message"></ion-textarea>
+                      </ion-item>
+
+                      <span class="error ion-padding" 
+                        *ngIf="videoMsgForm.get('link').touched && videoMsgForm.get('link').dirty && videoMsgForm.get('link').invalid"
+                      >
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('link').errors?.required">
+                          Please enter the video embeddable link to the message
+                        </span>
+                        <span class="error ion-padding" *ngIf="videoMsgForm.get('link').errors?.minlength">
+                          characters should be more than 10 characters.
+                        </span>
+                      </span>
+                    </div>
+      
+                    <ion-button block type="submit" [disabled]="videoMsgForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                      Submit <i *ngIf="submitted" class="loader"></i>
+                    </ion-button>
+      
+                    <ion-button block (click)="cancel()" mode="md" style="--background: #de8723;">
+                      close 
+                    </ion-button>
+                  </form>
+                </div>
+      
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+    
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-text-center" (click)="addNewBTN()">
+    <ion-icon name="megaphone" style="color: white; margin-right: 10px;"></ion-icon>
+    Add New Video Message
+  </ion-toolbar>
+</ion-footer>

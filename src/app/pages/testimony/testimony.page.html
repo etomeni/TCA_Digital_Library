@@ -1,0 +1,171 @@
+<ion-header [translucent]="false" class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>shoutOut</ion-title> -->
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Digital Library</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+    <ion-grid class="wrapper-outter">
+      <ion-row>
+        <ion-col size="12" class="yCenter" *ngIf="!testimonies.length || shareTestimony">
+          <div class="wrapper-inner">
+            
+            <div>
+              <h2 style="padding: 7px;">We'll be glad to hear <span style="color: #de2341;"> Testimonies </span> of God's Goodness in your life.</h2>
+  
+              <form [formGroup]="testimonyForm" (ngSubmit)="onSubmit()">
+                <div data-info="name input">
+                  <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                    <ion-label position="floating">Full Name(s) <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="3" formControlName="name" autocomplete="name" type="text"></ion-input>
+                  </ion-item>
+      
+                  <span class="error ion-padding" 
+                    *ngIf="testimonyForm.get('name').touched && testimonyForm.get('name').dirty && testimonyForm.get('name').invalid"
+                  >
+                    <span class="error ion-padding" *ngIf="testimonyForm.get('name').errors?.required">
+                      Please Enter your name
+                    </span>
+                    <span class="error ion-padding" *ngIf="testimonyForm.get('name').errors?.minlength">
+                      Name characters should be more than 3 characters.
+                    </span>
+                  </span>
+                </div>
+  
+                <div data-info="email input">
+                  <ion-item lines="none">
+                    <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="5" formControlName="email" type="email" autocomplete="email"></ion-input>
+                  </ion-item>
+  
+                  <span class="error ion-padding" 
+                    *ngIf="testimonyForm.get('email').touched && testimonyForm.get('email').dirty && testimonyForm.get('email').invalid"
+                  >
+                    <span class="error ion-padding" *ngIf="testimonyForm.get('email').errors?.required">
+                      Please Enter your Email address.
+                    </span>
+                    <span class="error ion-padding" *ngIf="testimonyForm.get('email').errors?.pattern || testimonyForm.get('email').errors?.email">
+                      Incorrect Email address.
+                    </span>
+                  </span>
+                </div>
+                
+                <div data-info="Phone-Number input">
+                  <ion-item lines="none">
+                    <ion-label position="floating">Phone Number <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-input required minlength="10" formControlName="phoneNumber" type="tel" autocomplete="tel"></ion-input>
+                  </ion-item>
+  
+                  <span class="error ion-padding" 
+                    *ngIf="testimonyForm.get('phoneNumber').touched && testimonyForm.get('phoneNumber').dirty && testimonyForm.get('phoneNumber').invalid"
+                  >
+                    <span class="error" *ngIf="testimonyForm.get('phoneNumber').errors?.required;">
+                      Please Enter your Phone Number.
+                    </span>
+                    <span class="error" *ngIf="testimonyForm.get('phoneNumber').errors?.pattern || testimonyForm.get('phoneNumber').errors?.minlength;">
+                      Phone Number not correct.
+                    </span>
+                  </span>
+                </div>
+  
+                <div data-info="Testimony input">
+                  <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+                    <ion-label position="floating">Testimony <ion-text color="danger">*</ion-text></ion-label>
+                    <ion-textarea formControlName="testimony" class="testimonyText" required minlength="10" placeholder="Please give full details of your testimony"></ion-textarea>
+                  </ion-item>
+  
+                  <span class="error ion-padding" 
+                    *ngIf="testimonyForm.get('testimony').touched && testimonyForm.get('testimony').dirty && testimonyForm.get('testimony').invalid"
+                  >
+                    <span class="error" *ngIf="testimonyForm.get('testimony').errors?.required;">
+                      Please enter full details of your testimony.
+                    </span>
+                    <span class="error" *ngIf="testimonyForm.get('testimony').errors?.minlength;">
+                      Your testimony is too short, please drop a comprehensive testimony.
+                    </span>
+                  </span>
+                </div>
+  
+                <div *ngIf="sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                  <p style="padding-top: 15px; padding-bottom: 15px;">
+                    Hallelujah!!!, your testimony has been received!
+                  </p>
+                </div>
+  
+                <ion-button block type="submit" [disabled]="testimonyForm.invalid || submitted" mode="md" style="--background: #de2341;">
+                  Submit <i *ngIf="submitted" class="loader"></i>
+                </ion-button>
+  
+                <ion-button block (click)="closeTestimonyBTN()" *ngIf="testimonies.length" mode="md" style="--background: #de8723;">
+                  close 
+                </ion-button>
+              </form>
+            </div>
+  
+          </div>
+        </ion-col>
+  
+        <ion-col size="12" sizeMd="6" sizeLg="4" *ngFor="let testimony of testimonies; let i = index">
+          <div *ngIf="!shareTestimony && testimony.status">
+            <ion-card style="background: rgba(255, 255, 255, 0.445); margin-top: 0; margin-bottom: 0;">
+              <ion-card-header>
+                <ion-card-title>
+                  <!-- {{ testimony.title }} -->
+                </ion-card-title>
+                <ion-card-subtitle style="color:rgb(39, 37, 37)">By: {{ testimony.name }} | {{ testimony.date | date: 'medium' }} </ion-card-subtitle>
+              </ion-card-header>
+            
+              <ion-card-content style="text-align: justify; color:rgb(39, 37, 37)">
+                <div [innerHTML]="testimony.message"></div>
+                <!-- {{ testimony.message }} -->
+                <span style="color: #de2341;" (click)="readMoreBTN(i)" *ngIf="testimony.readMore">...Read More</span>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-col>
+  
+      </ion-row>
+    </ion-grid>
+  
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-text-center" (click)="shareTestimonyBTN()">
+    <!-- <ion-title> -->
+      <ion-icon name="megaphone" style="color: white; margin-right: 10px;"></ion-icon>
+      Share Your Testimony
+    <!-- </ion-title> -->
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,136 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Contact Messages </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+    <ion-row>
+      <ion-col size="12">
+        <!-- List of Sliding Items -->
+        <ion-list id="slidingList" lines="none" style="margin: auto 10px;">
+          
+          <ion-item-sliding lines="none" *ngFor ="let contact of contactUs; let i=index">
+            <ion-item lines="none" id="openViewModal" (click)="openViewModal(i, contact)">
+             
+              <ion-label class="ion-text-wrap">
+                <ion-text color="dark">
+                  <h3> 
+                    By: <span style="color: black;"> {{ contact.name }} </span> | {{ contact.date | date: 'mediumDate' }} |
+
+                    <ion-icon *ngIf="contact.status" style="color: #28ba62;" name="checkmark-circle"></ion-icon>
+                    <ion-icon *ngIf="!contact.status" style="color: #de8723;" name="ellipse"></ion-icon>
+                  </h3>
+                </ion-text>
+                {{ contact.message | titlecase | slice: 0:70 }}
+              </ion-label>
+            </ion-item>
+  
+          </ion-item-sliding>
+          
+        </ion-list>
+  
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Contact Message
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-card class="modalViewz">
+          
+          <ion-card-header>
+            <ion-card-subtitle>
+              By: <span style="color: black;"> {{ modalContactMessage.name }} </span> | {{ modalContactMessage.date | date: 'mediumDate' }} |
+              
+              <ion-icon *ngIf="modalContactMessage.status" style="color: #28ba62;" name="checkmark-circle"></ion-icon>
+              <ion-icon *ngIf="!modalContactMessage.status" style="color: #de8723;" name="ellipse"></ion-icon>
+              
+              <br>
+              <span style="text-transform: lowercase;">
+                <a href="mailto:{{modalContactMessage.email}}?subject=Response to your prayer request sent on TCA digital library&body=Hi {{modalContactMessage.name}}, " style="text-decoration: none; color: unset;"> {{ modalContactMessage.email | lowercase }} </a> |
+                <a href="tel:{{modalContactMessage.phoneNumber}}" style="text-decoration: none; color: unset;"> {{ modalContactMessage.phoneNumber | lowercase }} </a>
+              </span>
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content style="color: black; padding: 10px;">
+            <div [innerHTML]="modalContactMessage.message"></div>
+
+            <div style="margin-top: 15px;">
+              <ion-button block mode="md"
+                (click)="repliedContactMsg(modalContactMessage)" 
+                *ngIf="!modalContactMessage.status" 
+                [disabled]="btnStatus.replied"
+                style="--background: #28ba62; margin-right: 5px;">
+                Replied <i *ngIf="btnStatus.replied" class="loader"></i>
+              </ion-button>
+  
+              <ion-button block mode="md"
+                (click)="deleteContactMsg(modalContactMessage)" 
+                [disabled]="btnStatus.delete"
+                style="--background: #de2341; margin-left: 5px;">
+                Delete <i *ngIf="btnStatus.delete" class="loader"></i>
+              </ion-button>
+            </div>
+
+
+          </ion-card-content>
+        </ion-card>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+    
+</ion-content>

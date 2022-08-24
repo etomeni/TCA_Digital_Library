@@ -1,0 +1,156 @@
+
+ion-header {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+    }
+}
+
+ion-footer {
+    // --background: transparent;
+    ion-toolbar {
+        --background: transparent;
+    }
+}
+
+ion-content {
+    --background:
+        linear-gradient(
+        rgba(0, 0, 0, 0.452), 
+        #0000006c
+        ),
+        url("/assets/images/audiomsg.png") 
+        no-repeat center center / cover;
+    // --background-size: cover;
+    // --background-repeat: no-repeat;
+    // --background-position: center center;
+    --margin: 0;
+    --padding: 0;
+
+
+
+    .podcast-main-content {
+        background-color: rgba(255, 0, 0, 0.555); 
+        border-radius: 10px;
+
+        .play-pause-col {
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .playBtnCover {
+            background-color: rgba(255, 255, 255, 0.555); 
+            padding: 25px; border-radius: 50%;
+
+            ion-icon {
+                font-size: x-large;
+            }
+        }
+
+        .duration-volume-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .duration {
+                width: 40%; 
+                margin-left: 3px; 
+                margin-right: 3px;
+            }
+
+            .mute-unmute-volume {
+                margin-left: 15px; 
+                margin-right: 3px; 
+                font-size: 20px;
+            }
+
+            .mute-unmute-volume:not(.active) {
+                display: none;
+            }
+
+            .volume {
+                width: 25%;
+            }
+        }
+    }
+
+    input[type="range"] {
+        outline: none;
+        height: 2px;
+    }
+
+}
+
+ion-range {
+    // --bar-background: #a2d2ff;
+    // --bar-background-active: #bde0fe;
+    --bar-height: 3px;
+    --bar-border-radius: 5px;
+    // --knob-background: #ffc8dd;
+    --knob-size: 0;
+    // --pin-background: #ffafcc;
+    // --pin-color: #fff;
+
+    padding: 0;
+}
+  
+
+
+
+
+.playing {
+    background: transparent;
+    width: 4rem;
+    height: 1.5rem;
+    border-radius: .3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* padding: .5rem; */
+    box-sizing: border-box;
+}
+  
+.playing__bar {
+    display: inline-block;
+    background: #de2341;
+    width: 30%;
+    height: 100%;
+    animation: up-and-down 1.3s ease infinite alternate;
+}
+  
+.playing__bar1 {
+    height: 60%;
+}
+  
+.playing__bar2 {
+    height: 30%;
+    animation-delay: -2.2s;
+}
+  
+.playing__bar3 {
+    height: 75%;
+    animation-delay: -3.7s;
+}
+  
+@keyframes up-and-down {
+    10% {
+        height: 30%;
+    }
+  
+    30% {
+        height: 100%;
+    }
+  
+    60% {
+        height: 50%;
+    }
+  
+    80% {
+        height: 75%;
+    }
+  
+    100% {
+        height: 60%;
+    }
+}

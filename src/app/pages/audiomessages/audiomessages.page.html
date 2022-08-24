@@ -1,0 +1,143 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>shoutOut</ion-title> -->
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">TCA </span> <span style="color: white;">Radio</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <main *ngIf="loadingStatus">
+    <ion-grid>
+      <ion-row>
+        <ion-col 
+          size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3"
+          *ngFor ="let audioMessage of audioMessages; let i=index"
+        >
+          <ion-card style="background: rgba(255, 255, 255, 0.589); margin-top: 0; margin-bottom: 0;">
+            <div>
+              <img src="{{ audioMessage.image }}" alt="audio message" height="150px" width="100%" (click)="openViewModal(audioMessage)">
+            </div>
+  
+            <ion-card-header>
+              <ion-card-subtitle>
+                {{ audioMessage.date | date: 'mediumDate' }} | {{ audioMessage.service }}
+              </ion-card-subtitle>
+  
+              <ion-card-title style="color: black !important; font-size: 18px;">
+                {{ audioMessage.title }}
+              </ion-card-title>
+            </ion-card-header>
+  
+            <ion-card-content style="color: black; padding-bottom: 0;">
+              <ion-item lines="none" class="ion-no-padding" style="--background: transparent;">
+                <ion-button fill="outline" mode="md" slot="start" style="padding: -15px; color: #de2341; --border-color: #ffffff;">
+                  <ion-label [id]="'aPlayBTN'+i" (click)="play(i)">
+                    <ion-icon slot="start" name="play"></ion-icon>
+                    Play
+                  </ion-label>
+  
+                  <ion-label [id]="'aPauseBTN'+i" style="display: none;" (click)="pause(i)">
+                    <ion-icon slot="start" name="pause"></ion-icon>
+                    Pause
+                  </ion-label>
+                </ion-button>
+  
+                <ion-grid [id]="'aWave'+i" style="display: none;">
+                  <ion-row>
+                    <ion-col style="display: flex; justify-content: center;">
+                      <span class="playing">
+                        <span class="playing__bar playing__bar1"></span>
+                        <span class="playing__bar playing__bar2"></span>
+                        <span class="playing__bar playing__bar3"></span>
+                      </span>
+                      <span class="playing" style="padding: 0 .3rem;">
+                          <span class="playing__bar playing__bar1"></span>
+                          <span class="playing__bar playing__bar2"></span>
+                          <span class="playing__bar playing__bar3"></span>
+                      </span>
+                      <span class="playing">
+                          <span class="playing__bar playing__bar1"></span>
+                          <span class="playing__bar playing__bar2"></span>
+                          <span class="playing__bar playing__bar3"></span>
+                      </span>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+  
+              </ion-item>
+
+              <ion-range
+                min="0" max="100"
+                color="danger"
+                [id]="'duration'+i"
+                [value]="audioMessage.durationRange"
+                (ionChange)="durationChange($event, i)"
+              >
+                <span slot="start" style="margin-right: 8px;"> {{ audioMessage.currentTime }} </span>
+                <span slot="end" style="margin-left: 8px;"> {{ audioMessage.duration }} </span>
+              </ion-range>
+
+            </ion-card-content>
+
+          </ion-card>
+        </ion-col>
+  
+      </ion-row>
+    </ion-grid>
+  
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+
+  <ion-modal trigger="openViewModal">
+    <ng-template>
+      <ion-header [translucent]="true" style="position: fixed;" class="ion-no-border">
+        <ion-toolbar>
+          <h1 style="margin: 0; padding-left: 10px; color: white;">
+            <span style="color: #de2341;">
+              <ion-icon name="arrow-back-circle" (click)="cancel()"></ion-icon>
+            </span>
+            Pastor Teaching
+          </h1>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <div style="height: 100vh !important; display: flex; background: #000000b0 !important;">
+          <div style="align-content: center; margin-top: 25vh; ">
+            <img src="{{ modalMessages.image }}" *ngIf="modalMessages.image" alt="announcement flyer or image">
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+</ion-content>

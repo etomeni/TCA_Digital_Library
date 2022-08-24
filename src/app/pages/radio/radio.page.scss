@@ -1,0 +1,171 @@
+ion-header {
+  // --background: transparent;
+  ion-toolbar {
+    --background: transparent;
+  }
+}
+  ion-footer {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+    }
+  }
+  
+ion-content {
+  --background:
+    linear-gradient(
+    rgba(0, 0, 0, 0.75), 
+    #000000bf
+    ),
+    url("/assets/images/radiomic.png") 
+    no-repeat center center / cover;
+  // --background-size: cover;
+  // --background-repeat: no-repeat;
+  // --background-position: center center;
+  --margin: 0;
+  --padding: 0;
+}
+
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.TCAcolor {
+  border: 35px solid #de2341;
+  border-radius: 100%;
+}
+
+.animate {
+  // border: 35px solid #de2341;
+  // border-radius: 50%;
+  border-top: 35px solid #ebf4fa;
+  // width: 120px;
+  // height: 120px;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.transparent {
+  border: 35px solid transparent;
+  border-radius: 100%;
+  -webkit-animation: none;
+  animation: none;
+}
+
+.whitecolor {
+  border: 15px solid #FFF;
+  border-radius: 100%;
+
+  -webkit-animation: none;
+  animation: none;
+}
+
+.radio-BTN {
+  color: #FFF;
+  font-size: 50px;
+  font-weight: bolder;
+  padding: 15px;
+
+  -webkit-animation: none;
+  animation: none;
+}
+
+
+
+
+.playing {
+  background: transparent;
+  width: 6rem;
+  height: 4rem;
+  border-radius: .3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* padding: .5rem; */
+  box-sizing: border-box;
+}
+
+.playing__bar {
+  display: inline-block;
+  background: #de2341;
+  width: 30%;
+  height: 100%;
+  animation: up-and-down 1.3s ease infinite alternate;
+}
+
+.playing__bar1 {
+  height: 60%;
+}
+
+.playing__bar2 {
+  height: 30%;
+  animation-delay: -2.2s;
+}
+
+.playing__bar3 {
+  height: 75%;
+  animation-delay: -3.7s;
+}
+
+@keyframes up-and-down {
+  10% {
+      height: 30%;
+  }
+
+  30% {
+      height: 100%;
+  }
+
+  60% {
+      height: 50%;
+  }
+
+  80% {
+      height: 75%;
+  }
+
+  100% {
+      height: 60%;
+  }
+}
+
+
+.loader {
+  // border: 16px solid #f3f3f3; /* Light grey */
+  // border-top: 16px solid #de2341; /* Blue */
+  // border-bottom: 16px solid #de2341; /* Blue */
+  // border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+}
+
+.iframe-loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #de2341; /* Blue */
+  border-bottom: 16px solid #de2341; /* Blue */
+  border-radius: 50%;
+  animation: spin 0.3s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

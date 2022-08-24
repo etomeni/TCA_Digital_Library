@@ -1,0 +1,94 @@
+<ion-header [translucent]="false" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">Consolation </span> <span style="color: white;">Radio</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Do ReFresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main *ngIf="loadingStatus">
+    <div id="container">
+
+      <div *ngIf="liveTV.status">
+        <div [innerHTML]="liveTV.link"></div>
+      </div>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col style="display: flex; justify-content: center;">
+            
+            <div style="height: 250px; width: 250px;">
+
+              <div class="TCAcolor">
+                <div class="transparent">
+                    <div class="whitecolor">
+
+                      <ion-icon name="play" class="radio-BTN" id="play-BTN" (click)="playRadio()"></ion-icon>
+                      <ion-icon name="pause" class="radio-BTN" id="pause-BTN" style="display: none;" (click)="pauseRadio()"></ion-icon>
+                      <ion-icon name="refresh-circle" class="radio-BTN loader" id="loadingIcon" *ngIf="loadingReadyState"></ion-icon>
+                      
+                    </div>
+                </div>
+              </div>
+
+            </div>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </div>
+
+    <div style="position: absolute; bottom: 0; left: 0; right: 0;" >
+
+      <ion-grid>
+        <ion-row id="wave" style="margin-top: 50px; display: none;">
+          <ion-col style="display: flex; justify-content: center;">
+
+            <span class="playing">
+              <span class="playing__bar playing__bar1"></span>
+              <span class="playing__bar playing__bar2"></span>
+              <span class="playing__bar playing__bar3"></span>
+            </span>
+            <span class="playing" style="padding: 0 .3rem;">
+                <span class="playing__bar playing__bar1"></span>
+                <span class="playing__bar playing__bar2"></span>
+                <span class="playing__bar playing__bar3"></span>
+            </span>
+            <span class="playing">
+                <span class="playing__bar playing__bar1"></span>
+                <span class="playing__bar playing__bar2"></span>
+                <span class="playing__bar playing__bar3"></span>
+            </span>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </div>
+  </main>
+
+  <div class="text-center loading-center" *ngIf="!loadingStatus">
+    <div class="loadingio-spinner-wedges-0a0tixanv03m">
+        <div class="ldio-v89jzfwgb"><div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+            <div><div></div></div>
+        </div>
+        </div>
+    </div>
+  </div>
+ 
+</ion-content>
