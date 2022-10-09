@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TestizPageRoutingModule } from './testiz-routing.module';
 
 import { TestizPage } from './testiz.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { TestizPage } from './testiz.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    TestizPageRoutingModule
+    TestizPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [TestizPage]
 })

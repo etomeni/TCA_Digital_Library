@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DevContactPageRoutingModule } from './dev-contact-routing.module';
 
 import { DevContactPage } from './dev-contact.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { DevContactPage } from './dev-contact.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    DevContactPageRoutingModule
+    DevContactPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [DevContactPage]
 })

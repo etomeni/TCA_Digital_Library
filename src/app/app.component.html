@@ -1,5 +1,4 @@
 <ion-app>
-
   <ion-menu contentId="menu-content" menuId="main-menu" side="end" type="overlay">
     <ion-content>
       <div class="menu-content-header-bg"></div>
@@ -21,6 +20,7 @@
       </div>
 
       <ion-list lines="none" class="menu-items">
+        <!-- Audio Messages -->
         <ion-menu-toggle>
           <ion-item routerLink="/audiomessages" [routerLinkActive]="['active']">
             <ion-icon slot="start" name="radio"></ion-icon>
@@ -28,6 +28,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Video Messages -->
         <ion-menu-toggle>
           <ion-item routerLink="/videomessages" [routerLinkActive]="['active']">
             <ion-icon slot="start" name="apps"></ion-icon>
@@ -35,6 +36,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Testimonies -->
         <ion-menu-toggle>
           <ion-item routerLink="/testimony" [routerLinkActive]="['active']"> 
             <ion-icon slot="start" name="mic"></ion-icon>
@@ -42,6 +44,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Prayer Request -->
         <ion-menu-toggle>
           <ion-item routerLink="/prayer-request" [routerLinkActive]="['active']">
             <ion-icon slot="start" name="open-outline"></ion-icon>
@@ -49,6 +52,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Announcements -->
         <ion-menu-toggle>
           <ion-item routerLink="/announcement" [routerLinkActive]="['active']">
             <ion-icon slot="start" name="megaphone"></ion-icon>
@@ -56,6 +60,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- About TCA -->
         <ion-menu-toggle>
           <ion-item routerLink="/about" [routerLinkActive]="['active']">
             <ion-icon name="business"></ion-icon>
@@ -63,13 +68,15 @@
           </ion-item>
         </ion-menu-toggle>
 
-        <ion-menu-toggle>
+        <!-- Offerings -->
+        <ion-menu-toggle *ngIf="settings.showOfferingPage">
           <ion-item [routerLinkActive]="['active']" routerLink="/donate">
             <ion-icon name="heart-sharp"></ion-icon>
             <ion-label>Offerings</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Contact Us -->
         <ion-menu-toggle>
           <ion-item routerLink="/contact" [routerLinkActive]="['active']">
             <ion-icon name="chatbubble-ellipses-sharp"></ion-icon>
@@ -77,6 +84,7 @@
           </ion-item>
         </ion-menu-toggle>
 
+        <!-- Admin -->
         <ion-menu-toggle>
           <ion-item routerLink="/admin" [routerLinkActive]="['active']">
             <ion-icon name="apps-outline"></ion-icon>

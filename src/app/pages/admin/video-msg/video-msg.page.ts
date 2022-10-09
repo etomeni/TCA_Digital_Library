@@ -119,7 +119,8 @@ export class VideoMsgPage implements OnInit {
         const videoMsgFormData = {
           service: this.videoMsgForm.value.service,
           title: this.videoMsgForm.value.title,
-          link: this.videoMsgForm.value.link,
+          link: this.videoMsgForm.value.link.replace(/width=".*?"/i, `width"100%"`).replace(/height=".*?"/i, `height"auto"`),
+          // link: this.videoMsgForm.value.link,
           date: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
           id: this.totalDBlength+1,
           status: true,

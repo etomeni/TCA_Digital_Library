@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AnnouncezPageRoutingModule } from './announcez-routing.module';
 
 import { AnnouncezPage } from './announcez.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AnnouncezPage } from './announcez.page';
     ReactiveFormsModule,
     IonicModule,
     AnnouncezPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [AnnouncezPage]
 })

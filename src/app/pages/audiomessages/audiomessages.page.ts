@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { IonInfiniteScroll, IonModal } from '@ionic/angular';
+import { IonInfiniteScroll, IonModal, ToastController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
@@ -8,6 +8,7 @@ import { LiveRadioService } from 'src/app/services/live-radio.service';
 import { AudioMessagesService } from 'src/app/services/audioMessages.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DatabaseService } from 'src/app/services/database.service';
+import { AudioPlayerService } from 'src/app/services/audio-player.service';
 
 @Component({
   selector: 'app-audiomessages',
@@ -26,15 +27,17 @@ export class AudioMessagesPage implements OnInit {
   interval: any;
 
   playingAudioID: any = null;
-  audioMessages: any = this.audioMessagesService.audioMessages;
+  audioMessages: any = this.audioService.audioMessages;
   modalMessages: any;
 
   constructor(
     private router: Router,
-    private audioMessagesService: AudioMessagesService,
+    // private audioMessagesService: AudioMessagesService,
+    private audioService: AudioPlayerService,
     private storageService: StorageService,
-    private radioService: LiveRadioService,
+    // private radioService: LiveRadioService,
     private databaseService: DatabaseService,
+    private toastController: ToastController,
     ) { }
 
   ngOnInit() {
@@ -54,38 +57,30 @@ export class AudioMessagesPage implements OnInit {
   getAudioMessages() {
     this.databaseService.endAll = false;
     
-    this.audioMessagesService.getAudioMessages();
+    this.audioService.getAudioMessages();
 
     this.interval = setInterval(() => {
       // here do whatever you want every 0.5 seconds
       if (this.audioMessages == null) {
-        this.audioMessages = this.audioMessagesService.audioMessages;
-        this.playingAudioID = this.audioMessagesService.playingAudioID;
+        this.audioMessages = this.audioService.audioMessages;
+        this.playingAudioID = this.audioService.playingAudioID;
       };
 
       if (this.playingAudioID != null) {
         this.rangeSlider(this.playingAudioID);
         this.localStorage();
-
-        this.storageService.get("outSideAudio").then(res => {
-          let response: any = res;
-          if (response.pauseFrmOutside && response.Status == "audioMessages") {
-            this.pause(response.audioID);
-            this.storageService.removeItem("outSideAudio");
-          }
-        });
       }
     }, 500);
   }
 
   durationChange(event, id) {
-    this.audioMessagesService.audioMessages[id].audio.currentTime = this.audioMessagesService.audioMessages[id].audio.duration * (event.detail.value / 100);
-    // console.log(this.audioMessagesService.audioMessages[id].audio.currentTime);
+    this.audioService.audioMessages[id].audio.currentTime = this.audioService.audioMessages[id].audio.duration * (event.detail.value / 100);
+    // console.log(this.audioService.audioMessages[id].audio.currentTime);
   }
 
   volumeChange(event, id) {
     let vol = event / 100;
-    this.audioMessagesService.audioMessages[id].audio.volume = vol;
+    this.audioService.audioMessages[id].audio.volume = vol;
 
     if (event <= 5) {
       this.volumeType = "volume-off";
@@ -101,15 +96,15 @@ export class AudioMessagesPage implements OnInit {
   }
 
   rangeSlider(id) {
-    if (this.audioMessagesService.audioMessages[id].audio.paused) {
+    if (this.audioService.audioMessages[id].audio.paused) {
       this.pause(id);
     }
     // let audioRangeSlider = this.ElementRef.nativeElement.querySelector('#duration'+id);
     // audioRangeSlider.value = 0;
 
     // DURATION RANGE:::: working using ngmodel
-    if (!isNaN(this.audioMessagesService.audioMessages[id].audio.duration)) {
-      let audioCurrentPosition = this.audioMessagesService.audioMessages[id].audio.currentTime * (100 / this.audioMessagesService.audioMessages[id].audio.duration);
+    if (!isNaN(this.audioService.audioMessages[id].audio.duration)) {
+      let audioCurrentPosition = this.audioService.audioMessages[id].audio.currentTime * (100 / this.audioService.audioMessages[id].audio.duration);
       // audioRangeSlider.value = audioCurrentPosition;
 
       this.audioMessages[id].durationRange = Math.round(audioCurrentPosition * 100) / 100;
@@ -117,14 +112,14 @@ export class AudioMessagesPage implements OnInit {
     }
 
     // IF THE SONG IS ENDS THE PLAY BUTTON SHOULD BE ENABLED
-    if (this.audioMessagesService.audioMessages[id].audio.ended || this.audioMessagesService.audioMessages[id].audio.duration === this.audioMessagesService.audioMessages[id].audio.currentTime) {
+    if (this.audioService.audioMessages[id].audio.ended || this.audioService.audioMessages[id].audio.duration === this.audioService.audioMessages[id].audio.currentTime) {
       document.getElementById('aPlayBTN'+id).style.display = "inline";
       document.getElementById('aPauseBTN'+id).style.display = "none";
       document.getElementById('aWave'+id).style.display = "none";
     }
 
-    let currentTime = this.audioDurationFunction(this.audioMessagesService.audioMessages[id].audio, "currentTime");
-    let duration = this.audioDurationFunction(this.audioMessagesService.audioMessages[id].audio, "duration");
+    let currentTime = this.audioDurationFunction(this.audioService.audioMessages[id].audio, "currentTime");
+    let duration = this.audioDurationFunction(this.audioService.audioMessages[id].audio, "duration");
 
     this.audioMessages[id].currentTime = currentTime;
     this.audioMessages[id].duration = duration;
@@ -132,43 +127,52 @@ export class AudioMessagesPage implements OnInit {
   }
 
   muteVolume(id) {
-    this.audioMessagesService.audioMessages[id].audio.volume = 0;
+    this.audioService.audioMessages[id].audio.volume = 0;
     this.volumeType = "volume-mute";
     // this.ElementRef.nativeElement.querySelector("#volume").value = 0;
     this.volumeRange = 0;
   }
 
   unmuteVolume(id) {
-    this.audioMessagesService.audioMessages[id].audio.volume = 1;
+    this.audioService.audioMessages[id].audio.volume = 1;
     this.volumeType = "volume-high";
     // this.ElementRef.nativeElement.querySelector("#volume").value = 100;
     this.volumeRange = 100;
   }
 
-  async play(id) {
-    let playingRes: any = await this.storageService.get("playing");
+  play(id) {
+    this.audioService.play({type: 'audioMessages', id}).then(
+      (res: any) => {
+        document.getElementById('aPlayBTN'+id).style.display = "none";
+        document.getElementById('aPauseBTN'+id).style.display = "inline";
+        document.getElementById('aWave'+id).style.display = "block";
+      },
+      (err: any) => {
+        document.getElementById('aPlayBTN'+id).style.display = "inline";
+        document.getElementById('aPauseBTN'+id).style.display = "none";
+        document.getElementById('aWave'+id).style.display = "none";
+        
+        this.presentToast("Unable to play audio, Please check internet connection or reload the app!!!");
+      }
+    );
 
-    if (playingRes.Status == "played" && playingRes.PlayingMedia == "radio") {
-      this.radioService.pauseRadio();
-      
-      this.playFunc(id);
-    } else {
-      this.playFunc(id);
-    }
 
+    interval(500).subscribe((func => {
+      if (this.audioService.playingAudio.paused) {
+        document.getElementById('aPlayBTN'+id).style.display = "inline";
+        document.getElementById('aPauseBTN'+id).style.display = "none";
+        document.getElementById('aWave'+id).style.display = "none";
+      }
+    }))
   }
 
   pause(id) {
-    this.storageService.get("playing").then(res => {
-      let response: any = res;
-      if (response.PlayingMedia == "audioMessages" && response.Status == "played") {
-        this.storageService.removeItem("playing");
-      } 
-    });
+    this.audioService.pause({type: 'audioMessages', id});
 
-    this.playingAudioID = id;
-    // this.audioMessagesService.audioMessages[id].audio.pause();
-    this.audioMessagesService.pause(id);
+    document.getElementById('aPlayBTN'+id).style.display = "inline";
+    document.getElementById('aPauseBTN'+id).style.display = "none";
+    document.getElementById('aWave'+id).style.display = "none";
+
     clearInterval(this.interval);
   }
 
@@ -217,16 +221,14 @@ export class AudioMessagesPage implements OnInit {
   }
 
   playFunc(id) {
-    let duration = this.audioDurationFunction(this.audioMessagesService.audioMessages[id].audio, "duration");
-    this.audioMessagesService.audioMessages[id].duration = duration;
+    let duration = this.audioDurationFunction(this.audioService.audioMessages[id].audio, "duration");
+    this.audioService.audioMessages[id].duration = duration;
 
-    // if(this.audioMessagesService.audioMessages[id].audio.readyState > 0) {
-      this.audioMessagesService.play(id);
+    // if(this.audioService.audioMessages[id].audio.readyState > 0) {
+      this.audioService.play(id);
       this.playingAudioID = id;
     // }
   }
-
-
 
   doRefresh(event) {
     this.ngOnInit();
@@ -239,18 +241,18 @@ export class AudioMessagesPage implements OnInit {
   }
 
   loadMoreData(event) {
-    this.audioMessagesService.loadMoreShowData();
+    this.audioService.loadMoreAudioMessages();
 
     setTimeout(() => {
       event.target.complete();
 
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
-      if (this.audioMessagesService.loadMoreState == false) {
+      if (this.audioService.loadMoreState == false) {
         event.target.disabled = true;
       }
 
-      this.audioMessagesService.loadMoreindex += 1;
+      this.audioService.loadMoreindex += 1;
     }, 500);
   }
 
@@ -267,4 +269,14 @@ export class AudioMessagesPage implements OnInit {
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 5000,
+      // position: 'top' | 'bottom' | 'middle',
+    });
+    toast.present();
+  }
+
 }

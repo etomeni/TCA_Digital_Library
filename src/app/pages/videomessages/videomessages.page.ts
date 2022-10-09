@@ -23,6 +23,12 @@ export class VideoMessagesPage implements OnInit {
   loadMoreState: boolean = true;
   totalDBlength: number;
 
+  headerData = {
+    translucent: true || false,
+    firstText_red: "TCA ",
+    firstText_white: " TV",
+  };
+
   constructor(
     // private router: Router,
     // private audioMessagesService: AudioMessagesService,

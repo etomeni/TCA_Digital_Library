@@ -1,0 +1,20 @@
+<ion-header [translucent]="headerData.translucent" class="ion-no-border">
+  <ion-toolbar>
+    <h1 style="margin: 0; padding-left: 10px;">
+      <span style="color: #de2341;">{{ headerData.firstText_red }} </span> 
+      <span style="color: white;"> {{ headerData.firstText_white }}</span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+  <ion-text class="msgDiv" *ngIf="globalMessage.status">
+    <p>
+      {{ globalMessage.message }}
+    </p>
+  </ion-text>
+
+</ion-header>

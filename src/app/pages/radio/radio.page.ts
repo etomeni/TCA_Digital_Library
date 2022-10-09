@@ -6,6 +6,7 @@ import { AudioMessagesService } from 'src/app/services/audioMessages.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AudioPlayerService } from 'src/app/services/audio-player.service';
 
 @Component({
   selector: 'app-radio',
@@ -13,7 +14,12 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./radio.page.scss'],
 })
 export class RadioPage implements OnInit {
-  
+  headerData = {
+    translucent: true || false,
+    firstText_red: "Consolation ",
+    firstText_white: " Radio",
+  };
+
   loadingStatus: boolean = false;
 
   liveTV: any = {};
@@ -22,10 +28,11 @@ export class RadioPage implements OnInit {
   timeout: boolean = false;
 
   constructor(
-    private StorageService: StorageService,
-    private radioService: LiveRadioService,
-    private audioMessagesService: AudioMessagesService,
-    private ToastController: ToastController,
+    private storageService: StorageService,
+    // private radioService: LiveRadioService,
+    // private audioMessagesService: AudioMessagesService,
+    private audioService: AudioPlayerService,
+    private toastController: ToastController,
     private databaseService: DatabaseService,
     private sanitizer: DomSanitizer
   ) { }
@@ -34,8 +41,9 @@ export class RadioPage implements OnInit {
     setTimeout(() => {
       this.timeout = true;
     }, 20000);
-    
+
     this.getRadio();
+    this.getSettingsDetails();
   }
   
   getRadio() {
@@ -44,12 +52,12 @@ export class RadioPage implements OnInit {
     this.databaseService.getFbDBpartData("live").then(
       (res: any) => {
         // console.log(res);
-        this.radioService.TCARadio = new Audio(`${res[0].radio}`);
+        this.audioService.TCARadio = new Audio(`${res[0].radio}`);
         this.liveTV.link = this.sanitizer.bypassSecurityTrustHtml(res[0].tv);
         this.liveTV.status = res[0].tvStatus;
 
-        this.radioService.TCARadio.setAttribute("type", "audio/mpeg");
-        this.radioService.TCARadio.load();
+        this.audioService.TCARadio.setAttribute("type", "audio/mpeg");
+        this.audioService.TCARadio.load();
         
         this.loadingStatus = true;
 
@@ -58,30 +66,37 @@ export class RadioPage implements OnInit {
             document.getElementById("play-BTN").style.display = "none";
             document.getElementById("pause-BTN").style.display = "none";
     
-            if (this.radioService.TCARadio.readyState > 1 || this.timeout) {
+            if (this.audioService.TCARadio.readyState > 1 || this.timeout) {
               this.loadingReadyState = false;
               document.getElementById("play-BTN").style.display = "block";
               if (this.timeout) {
                 this.presentToast("Unable to Load Radio :-(");
                 // console.log("second timeout");
               }
-              if (this.radioService.TCARadio.readyState > 1) {
+              if (this.audioService.TCARadio.readyState > 1) {
                 setTimeout(() => {
                   this.playRadio();
                 }, 2000);
               }
             }
           } 
-    
-          this.StorageService.get("outSideRadio").then(res => {
-            let response: any = res;
-            if (response.pauseFrmOutside && response.Status == "radio") {
-              this.pauseRadio();
-              this.StorageService.removeItem("outSideRadio");
-            }
-          })
-    
         }));
+
+        this.audioService.TCARadio.addEventListener('play', () => {
+          navigator.mediaSession.playbackState = 'playing';
+
+          document.getElementById("play-BTN").style.display = "none";
+          document.getElementById("pause-BTN").style.display = "block";
+          document.getElementById("wave").style.display = "block";
+        });
+      
+        this.audioService.TCARadio.addEventListener('pause', () => {
+          navigator.mediaSession.playbackState = 'paused';
+
+          document.getElementById("play-BTN").style.display = "block";
+          document.getElementById("pause-BTN").style.display = "none";
+          document.getElementById("wave").style.display = "none";
+        });
 
       },
       (err: any) => {
@@ -91,32 +106,32 @@ export class RadioPage implements OnInit {
 
   }
 
-  async playRadio() {
-    let playingRes: any = await this.StorageService.get("playing");
-
-    if (playingRes.Status == "played" && playingRes.PlayingMedia == "audioMessages") {
-      this.audioMessagesService.pause(playingRes.audioID);
-      this.radioService.playRadio(this.timeout);
-    } else {
-      this.radioService.playRadio(this.timeout);
-    }
+  playRadio() {
+    this.audioService.play({type: 'radio', id: '0'}).then(
+      (res: any) => {
+        document.getElementById("play-BTN").style.display = "none";
+        document.getElementById("pause-BTN").style.display = "block";
+      },
+      (err: any) => {
+        document.getElementById("play-BTN").style.display = "block";
+        document.getElementById("pause-BTN").style.display = "none";
+        document.getElementById("wave").style.display = "none";
+        
+        this.presentToast("Unable to play Radio, Please check internet connection or reload the app!!!");
+      }
+    );
   }
 
   pauseRadio() {
-    this.StorageService.get("playing").then(res => {
-      let response: any = res;
-      if (response.PlayingMedia == "radio" && response.Status == "played") {
-        this.StorageService.removeItem("playing");
-      } 
-    });
-
-    this.radioService.pauseRadio();
+    this.audioService.pause({type: 'radio', id: '0'});
+    
+    document.getElementById("play-BTN").style.display = "block";
+    document.getElementById("pause-BTN").style.display = "none";
+    document.getElementById("wave").style.display = "none";
   }
 
   doRefresh(event) {
     window.location.reload();
-    // this.router.navigate(['radio']);
-    // this.ngOnInit();
 
     setTimeout(() => {
       event.target.complete();
@@ -124,7 +139,7 @@ export class RadioPage implements OnInit {
   }
 
   async presentToast(message) {
-    const toast = await this.ToastController.create({
+    const toast = await this.toastController.create({
       message: message,
       duration: 5000,
       // position: 'top' | 'bottom' | 'middle',
@@ -133,7 +148,7 @@ export class RadioPage implements OnInit {
   }
 
   async presentToastWithOptions() {
-    const toast = await this.ToastController.create({
+    const toast = await this.toastController.create({
       header: 'Toast header',
       message: 'Click to Close',
       icon: 'information-circle',
@@ -159,6 +174,18 @@ export class RadioPage implements OnInit {
 
     const { role } = await toast.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+  }
+
+  getSettingsDetails() {
+    this.databaseService.getRealtimeDBdata("settings").then(
+      (res: any) => {
+        // console.log(res);
+        this.storageService.store("settings", res);
+      },
+      (err: any) => {
+        // console.log(err);
+      }
+    );
   }
 
 }

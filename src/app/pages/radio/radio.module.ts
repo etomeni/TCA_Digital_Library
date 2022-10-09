@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { RadioPageRoutingModule } from './radio-routing.module';
 
 import { RadioPage } from './radio.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RadioPageRoutingModule
+    RadioPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [RadioPage]
 })

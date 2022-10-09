@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TestimonyPageRoutingModule } from './testimony-routing.module';
 
 import { TestimonyPage } from './testimony.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { TestimonyPage } from './testimony.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    TestimonyPageRoutingModule
+    TestimonyPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [TestimonyPage]
 })

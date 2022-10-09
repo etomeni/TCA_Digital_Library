@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VideoMessagesPageRoutingModule } from './videomessages-routing.module';
 
 import { VideoMessagesPage } from './videomessages.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { VideoMessagesPage } from './videomessages.page';
     FormsModule,
     IonicModule,
     VideoMessagesPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [VideoMessagesPage]
 })

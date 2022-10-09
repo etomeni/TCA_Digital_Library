@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { announcementPageRoutingModule } from './announcement-routing.module';
 
 import { announcementPage } from './announcement.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { announcementPage } from './announcement.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    announcementPageRoutingModule
+    announcementPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [announcementPage]
 })

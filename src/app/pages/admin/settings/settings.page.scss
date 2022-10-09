@@ -20,13 +20,37 @@ ion-content {
         rgba(0, 0, 0, 0.452), 
         #0000006c
         ),
-        url("/assets/images/goLive.png") 
+        url("/assets/images/adminDetails.png") 
         no-repeat center center / cover;
     // --background-size: cover; 
     // --background-repeat: no-repeat;
     // --background-position: center center;
     --margin: 0;
     --padding: 0;
+
+    ion-toggle {
+        --handle-background: #de8723;
+    }
+
+    .enableOfferingPage .offeringContainer {
+        background-color: #de8723;
+        padding: 7.5px;
+
+        ion-toggle {
+            --handle-background: #de8723;
+        }
+    }
+
+    .generalNotificationMsg .togglerContainer {
+        background-color: #ffffff; 
+        padding: 5px 7.5px; 
+        border-radius: 5px; 
+        display: inline-block; 
+    }
+
+    .generalNotificationMsg form {
+        margin-top: 10px;
+    }
 
     .colorRed {
         color: #de2341;
@@ -112,31 +136,6 @@ ion-content {
         margin-top: 40px;
         margin-left: 0;
         margin-right: 0;
-    }
-
-    .stopLiveParent {
-        background: white;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin: auto;
-        text-align: center;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .stopLiveContainer {
-
-            ion-button {
-                --border-radius: 50%;
-                --background: #de2341;
-                --color: #ffffff;
-                text-align: center;
-                width: 70px;
-                height: 70px;
-            }
-        }
     }
 
     

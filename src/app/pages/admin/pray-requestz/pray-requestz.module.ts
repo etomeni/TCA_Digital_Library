@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PrayRequestzPageRoutingModule } from './pray-requestz-routing.module';
 
 import { PrayRequestzPage } from './pray-requestz.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PrayRequestzPageRoutingModule
+    PrayRequestzPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [PrayRequestzPage]
 })

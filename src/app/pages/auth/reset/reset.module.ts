@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ResetPageRoutingModule } from './reset-routing.module';
 
 import { ResetPage } from './reset.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ResetPage } from './reset.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ResetPageRoutingModule
+    ResetPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ResetPage]
 })

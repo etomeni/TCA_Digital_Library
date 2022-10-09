@@ -24,6 +24,9 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -52,7 +55,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
   providers: [
     Storage,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AppVersion,
+    InAppBrowser
   ],
   bootstrap: [AppComponent],
 })

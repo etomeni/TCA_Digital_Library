@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { AudioMessagesPageRoutingModule } from './audiomessages-routing.module';
 
 import { AudioMessagesPage } from './audiomessages.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AudioMessagesPageRoutingModule
+    AudioMessagesPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [AudioMessagesPage]
 })

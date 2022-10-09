@@ -1,9 +1,105 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>liveTV</ion-title>
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Go Live </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+
+  <main>
+    <ion-grid class="wrapper-outter">
+      <ion-row>
+        <ion-col size="12" class="yCenter">
+          <div class="wrapper-inner">
+
+            <div *ngIf="loadingStatus">
+              <section *ngIf="!tvStatus">
+                <div>
+                  <h1><span class="colorRed"> Disconnect </span></h1>
+                  <p>Stop live stream viewing from the App.</p>
+                </div>
+      
+                <div class="stopLiveParent">
+                  <div class="stopLiveContainer">
+      
+                    <ion-button size="large" expand="full" shape="round" color="danger" (click)="endLiveStreamBtn()">
+                      <ion-icon name="power-outline" style="font-size: x-large;"></ion-icon>
+                    </ion-button>
+      
+                  </div>
+                </div>
+              </section>
+  
+              <section *ngIf="tvStatus">
+                <div>
+                  <h1>Go <span class="colorRed"> Live </span> On TCA App!</h1>
+                  <p>Enable live streaming from the TCA Digital Library App.</p>
+                </div>
+                  
+                <form [formGroup]="goLiveForm" (ngSubmit)="onSubmitGoLive()">
+                  <div data-info="streamUrl input">
+                    <ion-item lines="none" style="border-radius: 10px;">
+                      <ion-label position="floating">Live Stream Url <ion-text color="danger">*</ion-text></ion-label>
+                      <ion-input required minlength="3" formControlName="streamUrl" autocomplete="url" type="url"></ion-input>
+                    </ion-item>
+      
+                    <span class="error ion-padding" 
+                      *ngIf="goLiveForm.get('streamUrl').touched && goLiveForm.get('streamUrl').dirty && goLiveForm.get('streamUrl').invalid"
+                    >
+                      <span class="error ion-padding" *ngIf="goLiveForm.get('streamUrl').errors?.required">
+                        Please enter url to the live stream video
+                      </span>
+                      <span class="error ion-padding" *ngIf="goLiveForm.get('streamUrl').errors?.minlength">
+                        Characters should be more than 3 characters.
+                      </span>
+                    </span>
+                  </div>
+      
+                  <div *ngIf="goLiveFormState.sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+                    <p style="padding-top: 15px; padding-bottom: 15px;">
+                      Live Streaming View is now ON. Please refresh to view!
+                    </p>
+                  </div>
+      
+                  <ion-button block type="submit" [disabled]="goLiveForm.invalid || goLiveFormState.submitted" mode="md" style="--background: #de2341; margin-top: 10px;">
+                    Submit <i *ngIf="goLiveFormState.submitted" class="loader"></i>
+                  </ion-button>
+                </form>
+              </section>
+            </div>
+
+            <div class="text-center loading-center" *ngIf="!loadingStatus">
+              <div class="loadingio-spinner-wedges-0a0tixanv03m">
+                  <div class="ldio-v89jzfwgb"><div>
+                      <div><div></div></div>
+                      <div><div></div></div>
+                      <div><div></div></div>
+                      <div><div></div></div>
+                  </div>
+                  </div>
+              </div>
+            </div>
+  
+          </div>
+        </ion-col>
+      </ion-row>
+  
+    </ion-grid>
+  </main>
 
 </ion-content>

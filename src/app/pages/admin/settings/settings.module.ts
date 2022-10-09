@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VideoMsgPageRoutingModule } from './video-msg-routing.module';
+import { SettingsPageRoutingModule } from './settings-routing.module';
 
-import { VideoMsgPage } from './video-msg.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { SettingsPage } from './settings.page';
 
 @NgModule({
   imports: [
@@ -15,9 +14,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    VideoMsgPageRoutingModule,
-    ComponentsModule
+    SettingsPageRoutingModule
   ],
-  declarations: [VideoMsgPage]
+  declarations: [SettingsPage]
 })
-export class VideoMsgPageModule {}
+export class SettingsPageModule {}

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PrayerRequestPageRoutingModule } from './prayer-request-routing.module';
 
 import { PrayerRequestPage } from './prayer-request.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { PrayerRequestPage } from './prayer-request.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    PrayerRequestPageRoutingModule
+    PrayerRequestPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [PrayerRequestPage]
 })

@@ -23,103 +23,269 @@
 <ion-content [fullscreen]="true">
   <ion-grid>
 
+    <!-- General Details! -->
     <ion-row>
       <ion-col size="12">
+        <div style="margin: 10px unset; text-align: center; color: #ffffff;">
+          <h2>General Church Details!</h2>
+        </div>
+
         <form [formGroup]="generalForm" (ngSubmit)="onSubmitGeneralForm()">
-          
-          <div data-info="name input">
+          <div data-info="appName input">
             <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
-              <ion-label position="floating">Full Name(s) <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required minlength="3" formControlName="name" autocomplete="name" type="text"></ion-input>
+              <ion-label position="floating">App Name <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="appName" type="text"></ion-input>
             </ion-item>
 
             <span class="error ion-padding" 
-              *ngIf="generalForm.get('name').touched && generalForm.get('name').dirty && generalForm.get('name').invalid"
+              *ngIf="generalForm.get('appName').touched && generalForm.get('appName').dirty && generalForm.get('appName').invalid"
             >
-              <span class="error ion-padding" *ngIf="generalForm.get('name').errors?.required">
-                Please Enter your name
+              <span class="error ion-padding" *ngIf="generalForm.get('appName').errors?.required">
+                Please enter the app's name
               </span>
-              <span class="error ion-padding" *ngIf="generalForm.get('name').errors?.minlength">
-                Name characters should be more than 3 characters.
+              <span class="error ion-padding" *ngIf="generalForm.get('appName').errors?.minlength">
+                App name characters should be more than 3 characters.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="churchName input">
+            <ion-item lines="none">
+              <ion-label position="floating">Church Name <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="churchName" type="text"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="generalForm.get('churchName').touched && generalForm.get('churchName').dirty && generalForm.get('churchName').invalid"
+            >
+              <span class="error ion-padding" *ngIf="generalForm.get('churchName').errors?.required">
+                Please enter church's name
+              </span>
+              <span class="error ion-padding" *ngIf="generalForm.get('churchName').errors?.minlength">
+                Church name characters should be more than 3 characters.
               </span>
             </span>
           </div>
 
-          <div data-info="email input">
+          <div data-info="churchEmail input">
             <ion-item lines="none">
-              <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required minlength="5" formControlName="email" type="email" autocomplete="email"></ion-input>
+              <ion-label position="floating">Church E-Mail <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="5" formControlName="churchEmail" type="email" autocomplete="email"></ion-input>
             </ion-item>
 
             <span class="error ion-padding" 
-              *ngIf="generalForm.get('email').touched && generalForm.get('email').dirty && generalForm.get('email').invalid"
+              *ngIf="generalForm.get('churchEmail').touched && generalForm.get('churchEmail').dirty && generalForm.get('churchEmail').invalid"
             >
-              <span class="error ion-padding" *ngIf="generalForm.get('email').errors?.required">
-                Please Enter your Email address.
+              <span class="error ion-padding" *ngIf="generalForm.get('churchEmail').errors?.required">
+                Please enter church email address.
               </span>
-              <span class="error ion-padding" *ngIf="generalForm.get('email').errors?.pattern || generalForm.get('email').errors?.email">
+              <span class="error ion-padding" *ngIf="generalForm.get('churchEmail').errors?.pattern || generalForm.get('churchEmail').errors?.email">
                 Incorrect Email address.
               </span>
             </span>
           </div>
           
-          <div data-info="Phone-Number input">
+          <div data-info="facebookLink input">
             <ion-item lines="none">
-              <ion-label position="floating">Phone Number <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required minlength="10" formControlName="phoneNumber" type="tel" autocomplete="tel"></ion-input>
+              <ion-label position="floating">Official Facebook Link <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="facebookLink" autocomplete="url" type="text"></ion-input>
             </ion-item>
 
             <span class="error ion-padding" 
-              *ngIf="generalForm.get('phoneNumber').touched && generalForm.get('phoneNumber').dirty && generalForm.get('phoneNumber').invalid"
+              *ngIf="generalForm.get('facebookLink').touched && generalForm.get('facebookLink').dirty && generalForm.get('facebookLink').invalid"
             >
-              <span class="error" *ngIf="generalForm.get('phoneNumber').errors?.required;">
-                Please Enter your Phone Number.
+              <span class="error ion-padding" *ngIf="generalForm.get('facebookLink').errors?.required">
+                Please enter link to church official facebook account
               </span>
-              <span class="error" *ngIf="generalForm.get('phoneNumber').errors?.pattern || generalForm.get('phoneNumber').errors?.minlength;">
-                Phone Number not correct.
+              <span class="error ion-padding" *ngIf="generalForm.get('facebookLink').errors?.minlength">
+                Link characters should be more than 3 characters.
               </span>
             </span>
           </div>
-
-          <div data-info="Message input">
-            <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
-              <ion-label position="floating">Message <ion-text color="danger">*</ion-text></ion-label>
-              <ion-textarea formControlName="message" class="messageText" required minlength="10" placeholder="Send us your feedback, we're waiting to receive them..."></ion-textarea>
+          
+          <div data-info="instagramLink input">
+            <ion-item lines="none">
+              <ion-label position="floating">Official Instagram Link <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input minlength="3" formControlName="instagramLink" autocomplete="url" type="text"></ion-input>
             </ion-item>
 
             <span class="error ion-padding" 
-              *ngIf="generalForm.get('message').touched && generalForm.get('message').dirty && generalForm.get('message').invalid"
-              lines="none"
+              *ngIf="generalForm.get('instagramLink').touched && generalForm.get('instagramLink').dirty && generalForm.get('instagramLink').invalid"
             >
-              <span class="error" *ngIf="generalForm.get('message').errors?.required;">
-                Please Enter your Message.
+              <span class="error ion-padding" *ngIf="generalForm.get('instagramLink').errors?.required">
+                Please enter link to church official instagram account
               </span>
-              <span class="error" *ngIf="generalForm.get('message').errors?.minlength;">
-                Your message is too short, please drop a comprehensive message.
+              <span class="error ion-padding" *ngIf="generalForm.get('instagramLink').errors?.minlength">
+                Link characters should be more than 3 characters.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="youtubeLink input">
+            <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+              <ion-label position="floating">Official YouTube Channel Link <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input minlength="3" formControlName="youtubeLink" autocomplete="url" type="text"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="generalForm.get('youtubeLink').touched && generalForm.get('youtubeLink').dirty && generalForm.get('youtubeLink').invalid"
+            >
+              <span class="error ion-padding" *ngIf="generalForm.get('youtubeLink').errors?.required">
+                Please enter link to church official YouTube account
+              </span>
+              <span class="error ion-padding" *ngIf="generalForm.get('youtubeLink').errors?.minlength">
+                Link characters should be more than 3 characters.
               </span>
             </span>
           </div>
 
           <div *ngIf="submittedDetails.generalSent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
             <p style="padding-top: 15px; padding-bottom: 15px;">
-              Contact Message sent successfully!!!
+              Details updated successfully!!!
             </p>
           </div>
 
           <ion-button block type="submit" [disabled]="generalForm.invalid || submittedDetails.generalState" mode="md" style="--background: #de2341;">
-            Send Message <i *ngIf="submittedDetails.generalState" class="loader"></i>
+            Submit <i *ngIf="submittedDetails.generalState" class="loader"></i>
           </ion-button>
         </form>
       </ion-col>
     </ion-row>
 
+    <!-- Pastor's Details! -->
+    <ion-row>
+      <ion-col size="12">
+        <div style="margin: 10px unset; text-align: center; color: #ffffff;">
+          <h2>Pastor's Details!</h2>
+        </div>
 
+        <form [formGroup]="pstDetailsForm" (ngSubmit)="onSubmitPstDetailsForm()">
+          <div data-info="pastorTitle input">
+            <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+              <ion-label position="floating">Pastor's Official Title <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="pastorTitle" autocomplete="title" type="text"></ion-input>
+            </ion-item>
 
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('pastorTitle').touched && pstDetailsForm.get('pastorTitle').dirty && pstDetailsForm.get('pastorTitle').invalid"
+            >
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorTitle').errors?.required">
+                Please enter pastor's official title
+              </span>
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorTitle').errors?.minlength">
+                Characters should be more than 3 characters.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="pastorName input">
+            <ion-item lines="none">
+              <ion-label position="floating">Pastor's Full Name(s) <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="pastorName" autocomplete="name" type="text"></ion-input>
+            </ion-item>
 
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('pastorName').touched && pstDetailsForm.get('pastorName').dirty && pstDetailsForm.get('pastorName').invalid"
+            >
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorName').errors?.required">
+                Please enter pastor's full name(s)
+              </span>
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorName').errors?.minlength">
+                Characters should be more than 3 characters.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="assistantPastorName input">
+            <ion-item lines="none">
+              <ion-label position="floating">Assistant Pastor's Full Name(s) <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="3" formControlName="assistantPastorName" autocomplete="name" type="text"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('assistantPastorName').touched && pstDetailsForm.get('assistantPastorName').dirty && pstDetailsForm.get('assistantPastorName').invalid"
+            >
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('assistantPastorName').errors?.required">
+                Please enter assistant pastor's full name(s)
+              </span>
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('assistantPastorName').errors?.minlength">
+                Characters should be more than 3 characters.
+              </span>
+            </span>
+          </div>
+
+          <div data-info="pastorEmail input">
+            <ion-item lines="none">
+              <ion-label position="floating">Pastor's E-Mail <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="5" formControlName="pastorEmail" type="email" autocomplete="email"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('pastorEmail').touched && pstDetailsForm.get('pastorEmail').dirty && pstDetailsForm.get('pastorEmail').invalid"
+            >
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorEmail').errors?.required">
+                Please enter Pastor's email address.
+              </span>
+              <span class="error ion-padding" *ngIf="pstDetailsForm.get('pastorEmail').errors?.pattern || pstDetailsForm.get('pastorEmail').errors?.email">
+                Incorrect email address.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="pastorNumber input">
+            <ion-item lines="none">
+              <ion-label position="floating">Pastor's Phone Number <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="10" formControlName="pastorNumber" type="tel" autocomplete="tel"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('pastorNumber').touched && pstDetailsForm.get('pastorNumber').dirty && pstDetailsForm.get('pastorNumber').invalid"
+            >
+              <span class="error" *ngIf="pstDetailsForm.get('pastorNumber').errors?.required;">
+                Please enter pastor's phone number.
+              </span>
+              <span class="error" *ngIf="pstDetailsForm.get('pastorNumber').errors?.pattern || pstDetailsForm.get('pastorNumber').errors?.minlength;">
+                Incorrect phone number.
+              </span>
+            </span>
+          </div>
+          
+          <div data-info="pastorNumberAlt input">
+            <ion-item lines="none" style="border-radius: 0 0 10px 10px;">
+              <ion-label position="floating">Pastor's Phone Number Alt. <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="10" formControlName="pastorNumberAlt" type="tel" autocomplete="tel"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="pstDetailsForm.get('pastorNumberAlt').touched && pstDetailsForm.get('pastorNumberAlt').dirty && pstDetailsForm.get('pastorNumberAlt').invalid"
+            >
+              <span class="error" *ngIf="pstDetailsForm.get('pastorNumberAlt').errors?.required;">
+                Please enter pastor's phone number.
+              </span>
+              <span class="error" *ngIf="pstDetailsForm.get('pastorNumberAlt').errors?.pattern || pstDetailsForm.get('pastorNumberAlt').errors?.minlength;">
+                Incorrect phone number.
+              </span>
+            </span>
+          </div>
+
+          <div *ngIf="submittedDetails.pastorFormSent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+            <p style="padding-top: 15px; padding-bottom: 15px;">
+              Pastor's details have been updated successfully!!!
+            </p>
+          </div>
+
+          <ion-button block type="submit" [disabled]="pstDetailsForm.invalid || submittedDetails.pastorFormState" mode="md" style="--background: #de2341;">
+            Submit <i *ngIf="submittedDetails.pastorFormState" class="loader"></i>
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+
+    <!-- Bank Account Details! -->
     <ion-row style="margin-top: 20px;">
       <ion-col size="12">
         <div style="margin: 10px unset; text-align: center; color: #ffffff;">
-          <h2>Update Offering Bank Account Details!</h2>
+          <h2>Church Bank Account Details!</h2>
         </div>
 
         <form [formGroup]="offeringAcctForm" (ngSubmit)="onSubmitOfferingAcct()">

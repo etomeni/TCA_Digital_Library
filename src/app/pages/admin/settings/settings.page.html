@@ -1,0 +1,278 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="color: white;">
+    
+    <h1 style="margin: 0; padding-left: 10px;">
+      
+      <span style="color: #de2341;">
+        <ion-icon name="arrow-back-circle" (click)="goback()"></ion-icon> 
+        TCA 
+      </span> 
+      <span style="color: white;">Family - </span>
+
+      <span style="font-size: 14px;"> Settings </span>
+    </h1>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+
+    <!-- Enaable Offering Page! -->
+    <ion-row class="enableOfferingPage">
+      <ion-col size="12">
+        <div class="offeringContainer">
+
+          <ion-list>
+            <ion-item class="ion-no-border">
+              <ion-label>{{ offeringPageState ? 'Disable' : 'Enable' }} Offering Page</ion-label>
+              <ion-toggle slot="end" mode="md" color="success" (ionChange)="enableOfferingPage($event)" (click)="onClick($event)" [checked]="offeringPageState" [disabled]="false"></ion-toggle>
+            </ion-item>
+          </ion-list>
+
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <hr style="height: 2px; background-color: #bbbbbb;" />
+
+    <!-- General Notification/Message  -->
+    <ion-row class="generalNotificationMsg">
+      <ion-col size="12">
+        <div style="margin: 10px unset; text-align: center; color: #ffffff;">
+          <h2>Enable Notification Message </h2>
+
+          <span class="togglerContainer">
+            <ion-toggle slot="end" mode="md" color="success" (ionChange)="generalNotificationMsg($event)" (click)="onClick($event)" [checked]="generalNotificationMsgState" [disabled]="false"></ion-toggle>
+          </span>
+        </div>
+
+        <form [formGroup]="generalMsgForm" (ngSubmit)="onSubmitGeneralMsgForm()" *ngIf="generalNotificationMsgState">
+
+          <div data-info="Message input">
+            <ion-item lines="none" style="border-radius: 10px 10px;">
+              <ion-label position="floating">Message <ion-text color="danger">*</ion-text></ion-label>
+              <ion-textarea formControlName="message" class="messageText" required minlength="10" placeholder="Enter the message..."></ion-textarea>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="generalMsgForm.get('message').touched && generalMsgForm.get('message').dirty && generalMsgForm.get('message').invalid"
+              lines="none"
+            >
+              <span class="error" *ngIf="generalMsgForm.get('message').errors?.required;">
+                Please enter the message.
+              </span>
+              <span class="error" *ngIf="generalMsgForm.get('message').errors?.minlength;">
+                Message is too short, please drop a comprehensive message.
+              </span>
+            </span>
+          </div>
+
+          <div *ngIf="submittedDetails.generalMsgForm.sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+            <p style="padding-top: 15px; padding-bottom: 15px;">
+              General notification message now enabled.
+            </p>
+          </div>
+
+          <ion-button block type="submit" [disabled]="generalMsgForm.invalid || submittedDetails.generalMsgForm.state" mode="md" style="--background: #de2341;">
+            Submit <i *ngIf="submittedDetails.generalMsgForm.state" class="loader"></i>
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+
+    <hr style="height: 2px; background-color: #bbbbbb;" />
+
+    <!-- App Update -->
+    <ion-row style="margin-top: 20px;">
+      <ion-col size="12">
+        <div style="margin: 10px unset; text-align: center; color: #ffffff;">
+          <h2>App Update</h2>
+        </div>
+
+        <form [formGroup]="appUpdateForm" (ngSubmit)="onSubmitAppUpdate()">
+          <ion-row>
+            <!-- App ID -->
+            <ion-col size="6">
+              <div data-info="iOSappID input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">iOS app ID <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="iOSappID" type="text" readonly></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('iOSappID').touched && appUpdateForm.get('iOSappID').dirty && appUpdateForm.get('iOSappID').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('iOSappID').errors?.required">
+                    Please enter the iOS app ID
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('iOSappID').errors?.minlength">
+                    iOS app ID characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <div data-info="androidAppID input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">android app ID <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="androidAppID" type="text" readonly></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('androidAppID').touched && appUpdateForm.get('androidAppID').dirty && appUpdateForm.get('androidAppID').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('androidAppID').errors?.required">
+                    Please enter the android app ID
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('androidAppID').errors?.minlength">
+                    android app ID characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <!-- version -->
+            <ion-col size="6">
+              <div data-info="iOSappVersion input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">iOS app version <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="iOSappVersion" type="text"></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('iOSappVersion').touched && appUpdateForm.get('iOSappVersion').dirty && appUpdateForm.get('iOSappVersion').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('iOSappVersion').errors?.required">
+                    Please enter the iOS app version
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('iOSappVersion').errors?.minlength">
+                    iOS app version characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <div data-info="androidAppVersion input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">android app Version <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="androidAppVersion" type="text"></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('androidAppVersion').touched && appUpdateForm.get('androidAppVersion').dirty && appUpdateForm.get('androidAppVersion').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('androidAppVersion').errors?.required">
+                    Please enter the android app Version
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('androidAppVersion').errors?.minlength">
+                    android app Version characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <!-- messages -->
+            <ion-col size="6">
+              <div data-info="updateBtn input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">BTN Text <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="updateBtn" type="text"></ion-input>
+                </ion-item>
+                
+                <span class="error ion-padding"
+                  *ngIf="appUpdateForm.get('updateBtn').touched && appUpdateForm.get('updateBtn').dirty && appUpdateForm.get('updateBtn').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('updateBtn').errors?.required">
+                    Please enter the android app ID
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('updateBtn').errors?.minlength">
+                    android app ID characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <div data-info="updateTitle input">
+                <ion-item lines="none" style="border-radius: 10px 10px 0 0;">
+                  <ion-label position="stacked">Title <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input required minlength="3" formControlName="updateTitle" type="text"></ion-input>
+                </ion-item>
+    
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('updateTitle').touched && appUpdateForm.get('updateTitle').dirty && appUpdateForm.get('updateTitle').invalid"
+                >
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('updateTitle').errors?.required">
+                    Please enter a suitable title for the update
+                  </span>
+                  <span class="error ion-padding" *ngIf="appUpdateForm.get('updateTitle').errors?.minlength">
+                    update title characters should be more than 3 characters.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <ion-col size="12">
+              <div data-info="updateMessage input">
+                <ion-item lines="none" style="border-radius: 10px 10px;">
+                  <ion-label position="floating">Display Message <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-textarea formControlName="updateMessage" required minlength="10" placeholder="Enter the message..."></ion-textarea>
+                </ion-item>
+  
+                <span class="error ion-padding" 
+                  *ngIf="appUpdateForm.get('updateMessage').touched && appUpdateForm.get('updateMessage').dirty && appUpdateForm.get('updateMessage').invalid"
+                  lines="none"
+                >
+                  <span class="error" *ngIf="appUpdateForm.get('updateMessage').errors?.required;">
+                    Please enter the message.
+                  </span>
+                  <span class="error" *ngIf="appUpdateForm.get('updateMessage').errors?.minlength;">
+                    Message is too short, please drop a comprehensive message.
+                  </span>
+                </span>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <div data-info="updateDisplay input">
+                <ion-item lines="none" style="border-radius: 10px 10px;">
+                  <ion-label position="fixed">Display <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-toggle slot="end" mode="md" color="success" (ionChange)="appUpdateStateOnChange($event)" (click)="onClick($event)" [checked]="onChangeAppUpdateState" [disabled]="false"></ion-toggle>
+                </ion-item>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <div data-info="updateMajor input">
+                <ion-item lines="none" style="border-radius: 10px 10px;">
+                  <ion-label position="fixed">Major Update <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-toggle slot="end" mode="md" color="success" (ionChange)="appUpdateMajorOnChange($event)" (click)="onClick($event)" [checked]="onChangeAppUpdateMajor" [disabled]="false"></ion-toggle>
+                </ion-item>
+              </div>
+            </ion-col>
+
+          </ion-row>
+          
+          <div *ngIf="submittedDetails.appUpdateForm.sent" style="background-color: #de2341; color: white; text-align: center; border-radius: 10px;">
+            <p style="padding-top: 15px; padding-bottom: 15px;">
+              New app update has been sent to all users.
+            </p>
+          </div>
+
+          <ion-button block type="submit" [disabled]="appUpdateForm.invalid || submittedDetails.appUpdateForm.state" mode="md" style="--background: #de2341;">
+            Submit <i *ngIf="submittedDetails.appUpdateForm.state" class="loader"></i>
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

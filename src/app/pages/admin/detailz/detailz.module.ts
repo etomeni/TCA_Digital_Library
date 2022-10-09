@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DetailzPageRoutingModule } from './detailz-routing.module';
 
 import { DetailzPage } from './detailz.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { DetailzPage } from './detailz.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    DetailzPageRoutingModule
+    DetailzPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [DetailzPage]
 })

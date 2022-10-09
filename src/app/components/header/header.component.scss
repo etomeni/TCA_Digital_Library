@@ -1,0 +1,25 @@
+ion-header {
+    // --background: transparent;
+    ion-toolbar {
+      --background: transparent;
+    }
+}
+
+ion-footer {
+    // --background: transparent;
+    ion-toolbar {
+        --background: transparent;
+    }
+}
+
+.msgDiv {
+    margin: 0;
+
+    p {
+        color: white; 
+        background-color: rgba(235, 133, 16, 0.801); 
+        padding: 5px; 
+        text-align: center; 
+        margin: 0;
+    }
+}

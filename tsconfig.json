@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     // "target": "es2017", // es2015 WAS THE FORM CONFIG.
-    "target": "es2015",
+    "target": "es2017",
     "module": "es2020",
     "lib": ["es2018", "dom"]
   },

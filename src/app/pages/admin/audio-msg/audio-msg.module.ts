@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AudioMsgPageRoutingModule } from './audio-msg-routing.module';
 
 import { AudioMsgPage } from './audio-msg.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { AudioMsgPage } from './audio-msg.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    AudioMsgPageRoutingModule
+    AudioMsgPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [AudioMsgPage]
 })

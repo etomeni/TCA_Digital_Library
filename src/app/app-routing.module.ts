@@ -143,7 +143,11 @@ const routes: Routes = [
         path: 'developers-contact', 
         loadChildren: () => import('./pages/admin/dev-contact/dev-contact.module').then( m => m.DevContactPageModule)
       },
-
+      
+      {
+        path: 'settings',
+        loadChildren: () => import('./pages/admin/settings/settings.module').then( m => m.SettingsPageModule)
+      },
     ]
   },
 
