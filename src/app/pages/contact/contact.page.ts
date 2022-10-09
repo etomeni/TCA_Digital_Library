@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { DatabaseService } from 'src/app/services/database.service';
-// import { StorageService } from 'src/app/services/storage.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -21,13 +21,27 @@ export class ContactPage implements OnInit {
 
   totalDBlength: number;
 
+  developer = {
+    name: "Sunday Etom",
+    socialHandle: "@amsundaywhite"
+  };
+
+  church = {
+    churchAddress: "45, Edosomwan Street, off Ohovbe quarters, Benin City, Edo State, Nigeria.",
+    phoneNumber1: "+234-704-827-4813",
+    phoneNumber2: "+234-705-739-8469",
+    email: "thecomfortersassembly@gmail.com",
+    fbHandle: "@consolationministryint'l",
+    igHandle: "@consolationministryint'l",
+  };
+
   constructor(
     public formBuilder: FormBuilder, 
     // private router: Router,
     public alertController: AlertController,
     private http: HttpClient,
     // services here
-    // private StoreService: StorageService,
+    private storageService: StorageService,
     private databaseService: DatabaseService,
   ) { }
 
@@ -58,6 +72,61 @@ export class ContactPage implements OnInit {
     });  
     
     this.databaseService.endAll = false;
+  }
+
+  getContactData() {
+
+    this.databaseService.getRealtimeDBdata("devDetails").then(
+      (res: any) => {
+        // console.log(res);
+        this.storageService.store("devDetails", res);
+        this.developer.name = res.name || "Sunday Etom";
+        this.developer.socialHandle = res.instagramUsername || res.twitterUsername || "@amsundaywhite";
+      },
+      (err: any) => {
+        console.log(err);
+        
+        this.storageService.get("devDetails").then(
+          (res: any) => {
+            if (res) {
+              this.developer.name = res.name || "Sunday Etom";
+              this.developer.socialHandle = res.instagramUsername || res.twitterUsername || "@amsundaywhite";
+            }
+          }
+        )
+      }
+    );
+
+    this.databaseService.getRealtimeDBdata("generalDetails").then(
+      (res: any) => {
+        // console.log(res);
+        this.storageService.store("generalDetails", res);
+
+        this.church.churchAddress = res.churchAddress || "45, Edosomwan Street, off Ohovbe quarters, Benin City, Edo State, Nigeria.";
+        this.church.phoneNumber1 = res.pastorNumber || "+234-704-827-4813";
+        this.church.phoneNumber2 = res.pastorNumberAlt || "+234-705-739-8469";
+        this.church.email = res.churchEmail || res.pastorEmail || "thecomfortersassembly@gmail.com";
+        this.church.fbHandle = `@${ res.facebookUsername }` || "@consolationministryint'l";
+        this.church.igHandle = `@${ res.instagramUsername }` || "@consolationministryint'l";
+      },
+      (err: any) => {
+        console.log(err);
+        
+        this.storageService.get("generalDetails").then(
+          (res: any) => {
+            if (res) {
+              this.church.churchAddress = res.churchAddress || "45, Edosomwan Street, off Ohovbe quarters, Benin City, Edo State, Nigeria.";
+              this.church.phoneNumber1 = res.pastorNumber || "+234-704-827-4813";
+              this.church.phoneNumber2 = res.pastorNumberAlt || "+234-705-739-8469";
+              this.church.email = res.churchEmail || res.pastorEmail || "thecomfortersassembly@gmail.com";
+              this.church.fbHandle = `@${ res.facebookUsername }` || "@consolationministryint'l";
+              this.church.igHandle = `@${ res.instagramUsername }` || "@consolationministryint'l";
+            }
+          }
+        )
+      }
+    );
+
   }
 
   async onSubmit() {

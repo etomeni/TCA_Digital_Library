@@ -19,7 +19,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
   <ion-grid>
 
@@ -81,6 +80,24 @@
               </span>
               <span class="error ion-padding" *ngIf="generalForm.get('churchEmail').errors?.pattern || generalForm.get('churchEmail').errors?.email">
                 Incorrect Email address.
+              </span>
+            </span>
+          </div>
+
+          <div data-info="churchAddress input">
+            <ion-item lines="none">
+              <ion-label position="floating">Church Address <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required minlength="5" formControlName="churchAddress" type="text"></ion-input>
+            </ion-item>
+
+            <span class="error ion-padding" 
+              *ngIf="generalForm.get('churchAddress').touched && generalForm.get('churchAddress').dirty && generalForm.get('churchAddress').invalid"
+            >
+              <span class="error ion-padding" *ngIf="generalForm.get('churchAddress').errors?.required">
+                Please enter church address.
+              </span>
+              <span class="error ion-padding" *ngIf="generalForm.get('churchAddress').errors?.minlength">
+                Input character must be more than 5 characters
               </span>
             </span>
           </div>
@@ -311,7 +328,7 @@
           <div data-info="accountNumber input">
             <ion-item lines="none">
               <ion-label position="floating">Account Number <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required minlength="10" maxlength="10" formControlName="accountNumber" type="number"></ion-input>
+              <ion-input required minlength="10" maxlength="10" formControlName="accountNumber" type="text"></ion-input>
             </ion-item>
 
             <span class="error ion-padding" 

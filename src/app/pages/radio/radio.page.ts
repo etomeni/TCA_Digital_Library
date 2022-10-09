@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { interval } from 'rxjs';
-import { LiveRadioService } from 'src/app/services/live-radio.service';
-import { AudioMessagesService } from 'src/app/services/audioMessages.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -29,8 +27,6 @@ export class RadioPage implements OnInit {
 
   constructor(
     private storageService: StorageService,
-    // private radioService: LiveRadioService,
-    // private audioMessagesService: AudioMessagesService,
     private audioService: AudioPlayerService,
     private toastController: ToastController,
     private databaseService: DatabaseService,

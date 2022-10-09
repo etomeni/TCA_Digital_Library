@@ -4,8 +4,6 @@ import { IonInfiniteScroll, IonModal, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 
-import { LiveRadioService } from 'src/app/services/live-radio.service';
-import { AudioMessagesService } from 'src/app/services/audioMessages.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AudioPlayerService } from 'src/app/services/audio-player.service';
@@ -32,10 +30,8 @@ export class AudioMessagesPage implements OnInit {
 
   constructor(
     private router: Router,
-    // private audioMessagesService: AudioMessagesService,
     private audioService: AudioPlayerService,
     private storageService: StorageService,
-    // private radioService: LiveRadioService,
     private databaseService: DatabaseService,
     private toastController: ToastController,
     ) { }

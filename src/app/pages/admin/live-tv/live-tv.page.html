@@ -24,11 +24,17 @@
   <main>
     <ion-grid class="wrapper-outter">
       <ion-row>
+        <ion-col size="12">
+          <div *ngIf="tvStatus">
+            <div [innerHTML]="tvLink"></div>
+          </div>
+        </ion-col>
+
         <ion-col size="12" class="yCenter">
           <div class="wrapper-inner">
 
             <div *ngIf="loadingStatus">
-              <section *ngIf="!tvStatus">
+              <section *ngIf="tvStatus">
                 <div>
                   <h1><span class="colorRed"> Disconnect </span></h1>
                   <p>Stop live stream viewing from the App.</p>
@@ -37,7 +43,7 @@
                 <div class="stopLiveParent">
                   <div class="stopLiveContainer">
       
-                    <ion-button size="large" expand="full" shape="round" color="danger" (click)="endLiveStreamBtn()">
+                    <ion-button size="large" expand="full" shape="round" color="danger" [disabled]="goLiveFormState.endBtn" (click)="endLiveStreamBtn()">
                       <ion-icon name="power-outline" style="font-size: x-large;"></ion-icon>
                     </ion-button>
       
@@ -45,7 +51,7 @@
                 </div>
               </section>
   
-              <section *ngIf="tvStatus">
+              <section *ngIf="!tvStatus">
                 <div>
                   <h1>Go <span class="colorRed"> Live </span> On TCA App!</h1>
                   <p>Enable live streaming from the TCA Digital Library App.</p>

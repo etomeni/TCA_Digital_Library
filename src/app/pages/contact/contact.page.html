@@ -1,17 +1,3 @@
-<!-- <ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar>
-    <h1 style="margin: 0; padding-left: 10px;">
-      <span style="color: #de2341;">TCA </span> 
-      <span style="color: white;"> Digital Library</span>
-    </h1>
-
-    <ion-buttons slot="end">
-      <ion-menu-button menu="main-menu" style="color: white;"></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header> -->
-
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
@@ -27,22 +13,22 @@
       <ion-col size="12">
         <div class="ion-text-center">
           <ion-icon name="location" class="colorRed"></ion-icon>
-          <div>45, Edosomwan Street, off Ohovbe quarters, Benin City, Edo State, Nigeria.</div>
+          <div>{{ church.churchAddress }}</div>
         </div>
       </ion-col>
 
       <ion-col size="6">
         <div class="ion-text-center">
           <ion-icon name="call" class="colorRed"></ion-icon>
-          <div>+234-704-827-4813</div>
-          <div>+234-705-739-8469</div>
+          <div>{{ church.phoneNumber1 }}</div>
+          <div>{{ church.phoneNumber2 }}</div>
         </div>
       </ion-col>
 
       <ion-col size="6">
         <div class="ion-text-center">
           <ion-icon name="mail" class="colorRed"></ion-icon>
-          <div>thecomfortersassembly@gmail.com</div>
+          <div>{{ church.email }}</div>
         </div>
       </ion-col>
 
@@ -51,14 +37,14 @@
           <ion-icon name="logo-facebook" style="margin-right: 5px;"></ion-icon>
           <!-- <ion-icon name="logo-twitter" style="margin-right: 5px; color: #00acee;"></ion-icon> -->
           <!-- <ion-icon name="logo-linkedin" style="margin-right: 5px;"></ion-icon> -->
-          <span>@consolationministryint'l</span>
+          <span>{{ church.fbHandle }}</span>
         </div>
       </ion-col>
 
       <ion-col size="6">
         <div class="ion-text-center">
           <ion-icon name="logo-instagram" style="margin-right: 5px; color: #E4405F;"></ion-icon>
-          <span>@consolationministryint'l</span>
+          <span>{{ church.igHandle }}</span>
         </div>
       </ion-col>
 
@@ -160,9 +146,8 @@
       <ion-col size="6">
         <p>
           Developed by
-          <!-- <a href="http://sunday.rf.gd" style="color: #de2341;" target="_blank" rel="noopener noreferrer"> -->
           <a routerLink="/contactDev" style="color: #de2341;">
-            Sunday Etom
+            {{ developer.name }}
           </a>
         </p>
       </ion-col>
@@ -173,7 +158,7 @@
           <ion-icon name="logo-twitter" style="margin-right: 5px; color: #00acee;"></ion-icon>
           <ion-icon name="logo-linkedin" style="margin-right: 5px;"></ion-icon>
           <ion-icon name="logo-instagram" style="margin-right: 5px; color: #E4405F;"></ion-icon>
-          <span>@amsundaywhite</span>
+          <span> {{ developer.socialHandle }} </span>
         </div>
       </ion-col>
 

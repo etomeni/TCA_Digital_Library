@@ -28,13 +28,14 @@ export class DetailzPage implements OnInit {
 
   generalDetails = {
     appName: "TCA Digital Library",
-    churchEmail: "churchEmail@gmail.com",
     churchName: "The Comforter's Assembly",
+    churchEmail: "churchEmail@gmail.com",
+    churchAddress: "45, Edosomwan Street, off Ohovbe quarters, Benin City, Edo State, Nigeria.",
 
     bankDetails: {
-      accountName: "Sunday Etom Eni",
-      accountNumber: 2047661929,
-      name: "United Bank for Africa"
+      accountName: "Consolation Ministry",
+      accountNumber: "0168368717",
+      bankName: 'GT Bank',
     },
 
     facebookLink: "https://facebook.com/consolationministry",
@@ -82,6 +83,11 @@ export class DetailzPage implements OnInit {
         Validators.minLength(5),
         Validators.email,
         Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$'),
+      ]],
+
+      churchAddress: ['', [
+        Validators.required,
+        Validators.minLength(5),
       ]],
 
       facebookLink: ['', [
@@ -158,45 +164,16 @@ export class DetailzPage implements OnInit {
   }
 
   async getGeneralDetails() {
-    this.storeService.get("generalDetails").then(
-      (res: any) => {
-        if (res) {
-          this.generalDetails = res;
-
-          this.generalForm.get("appName").setValue(res.appName);
-          this.generalForm.get("churchName").setValue(res.churchName);
-          this.generalForm.get("churchEmail").setValue(res.churchEmail);
-          this.generalForm.get("facebookLink").setValue(res.facebookLink);
-          this.generalForm.get("instagramLink").setValue(res.instagramLink);
-          this.generalForm.get("youtubeLink").setValue(res.youtubeLink);
-
-          this.pstDetailsForm.get("pastorTitle").setValue(res.pastorTitle);
-          this.pstDetailsForm.get("pastorName").setValue(res.pastorName);
-          this.pstDetailsForm.get("assistantPastorName").setValue(res.assistantPastorName);
-          this.pstDetailsForm.get("pastorEmail").setValue(res.pastorEmail);
-          this.pstDetailsForm.get("pastorNumber").setValue(res.pastorNumber);
-          this.pstDetailsForm.get("pastorNumberAlt").setValue(res.pastorNumberAlt);
-
-          this.offeringAcctForm.get("bankName").setValue(res.bankDetails.name);
-          this.offeringAcctForm.get("accountName").setValue(res.bankDetails.accountName);
-          this.offeringAcctForm.get("accountNumber").setValue(res.bankDetails.accountNumber);
-        }
-      },
-      (err: any) => {
-        // console.log(err);
-      }
-    )
-
     await this.databaseService.getRealtimeDBdata("generalDetails").then(
       (res: any) => {
         // console.log(res);
-
         this.generalDetails = res;
         this.storeService.store("generalDetails", res);
 
         this.generalForm.get("appName").setValue(res.appName);
         this.generalForm.get("churchName").setValue(res.churchName);
         this.generalForm.get("churchEmail").setValue(res.churchEmail);
+        this.generalForm.get("churchAddress").setValue(res.churchAddress);
         this.generalForm.get("facebookLink").setValue(res.facebookLink);
         this.generalForm.get("instagramLink").setValue(res.instagramLink);
         this.generalForm.get("youtubeLink").setValue(res.youtubeLink);
@@ -208,13 +185,40 @@ export class DetailzPage implements OnInit {
         this.pstDetailsForm.get("pastorNumber").setValue(res.pastorNumber);
         this.pstDetailsForm.get("pastorNumberAlt").setValue(res.pastorNumberAlt);
 
-        this.offeringAcctForm.get("bankName").setValue(res.bankDetails.name);
+        this.offeringAcctForm.get("bankName").setValue(res.bankDetails.bankName);
         this.offeringAcctForm.get("accountName").setValue(res.bankDetails.accountName);
         this.offeringAcctForm.get("accountNumber").setValue(res.bankDetails.accountNumber);
 
       },
       (err: any) => {
         console.log(err);
+
+        this.storeService.get("generalDetails").then(
+          (res: any) => {
+            if (res) {
+              this.generalDetails = res;
+    
+              this.generalForm.get("appName").setValue(res.appName);
+              this.generalForm.get("churchName").setValue(res.churchName);
+              this.generalForm.get("churchEmail").setValue(res.churchEmail);
+              this.generalForm.get("churchAddress").setValue(res.churchAddress);
+              this.generalForm.get("facebookLink").setValue(res.facebookLink);
+              this.generalForm.get("instagramLink").setValue(res.instagramLink);
+              this.generalForm.get("youtubeLink").setValue(res.youtubeLink);
+    
+              this.pstDetailsForm.get("pastorTitle").setValue(res.pastorTitle);
+              this.pstDetailsForm.get("pastorName").setValue(res.pastorName);
+              this.pstDetailsForm.get("assistantPastorName").setValue(res.assistantPastorName);
+              this.pstDetailsForm.get("pastorEmail").setValue(res.pastorEmail);
+              this.pstDetailsForm.get("pastorNumber").setValue(res.pastorNumber);
+              this.pstDetailsForm.get("pastorNumberAlt").setValue(res.pastorNumberAlt);
+    
+              this.offeringAcctForm.get("bankName").setValue(res.bankDetails.bankName);
+              this.offeringAcctForm.get("accountName").setValue(res.bankDetails.accountName);
+              this.offeringAcctForm.get("accountNumber").setValue(res.bankDetails.accountNumber);
+            }
+          }
+        )
       }
     );
   }
@@ -286,8 +290,14 @@ export class DetailzPage implements OnInit {
     if (this.offeringAcctForm.valid) {
       try {
         // console.log(this.offeringAcctForm.value);
+
+        const bankDetails = {
+          accountName: this.offeringAcctForm.value.accountName,
+          accountNumber: this.offeringAcctForm.value.accountNumber,
+          bankName: this.offeringAcctForm.value.bankName
+        }
     
-        await this.databaseService.updateRealtimeDBdata(`generalDetails`, this.offeringAcctForm.value).then( () => {
+        await this.databaseService.updateRealtimeDBdata(`generalDetails/bankDetails`, bankDetails).then( () => {
           this.submittedDetails.offeringSent = true;
 
           this.presentAlert("Account details has been updated successfully!");
